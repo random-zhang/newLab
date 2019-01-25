@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/user_info_bar"
+        android:background="#0cbfe8">
+        <ImageView
+            android:id="@+id/user_info_return_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@mipmap/return_menu"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="个人资料"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/user_info_portrait_team"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/user_info_bar">
+
+        <TextView
+            android:id="@+id/user_info_portrait_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="头 像"
+            android:textSize="26sp" />
+
+        <ImageView
+            android:id="@+id/user_info_portrait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="55dp"
+            android:background="@mipmap/default_portrait" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="31dp"
+            android:background="@mipmap/arrow" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/user_info_portrait_team">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_info_username_team">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_username_text"
+                android:text="用户名"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/user_info_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="50dp"
+                android:text="tom"
+                android:textSize="26sp" />
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="31dp"
+                android:background="@mipmap/arrow" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_info_userphone_team"
+            android:layout_below="@id/user_info_username_team"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_userphone_text"
+                android:text="手机号"
+                android:textSize="26sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_userphone"
+                android:text="17551020805"
+                android:textSize="26sp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="50dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_info_password_team"
+            android:layout_below="@id/user_info_userphone_team"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_password_text"
+                android:text="修改密码"
+                android:textSize="26sp" />
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="31dp"
+                android:background="@mipmap/arrow" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_info_sex_team"
+            android:layout_below="@id/user_info_password_team"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_sex_text"
+                android:text="性别"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/user_info_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="50dp"
+                android:text="男"
+                android:textSize="26sp" />
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="31dp"
+                android:background="@mipmap/arrow" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_info_birthday_team"
+            android:layout_below="@id/user_info_sex_team"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_birthday_text"
+                android:text="生日"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/user_info_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="50dp"
+                android:text="1998-09-25"
+                android:textSize="26sp" />
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="31dp"
+                android:background="@mipmap/arrow" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_info_address_team"
+            android:layout_below="@id/user_info_birthday_team"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_info_address_text"
+                android:text="地址"
+                android:textSize="26sp" />
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="31dp"
+                android:background="@mipmap/arrow" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+

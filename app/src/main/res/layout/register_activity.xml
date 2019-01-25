@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true" >
+    <RelativeLayout
+        android:id="@+id/register_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#0cbfe8">
+
+        <ImageView
+            android:id="@+id/register_return_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@mipmap/return_menu"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="注  册"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center" >
+
+        <FrameLayout
+            android:id="@+id/register_userphone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_username"
+            android:gravity="center" >
+            <EditText
+                android:id="@+id/register_userphone_edit"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="5dp"
+                android:hint="手机号"
+                android:background="#F0F0F0"
+                android:paddingRight="60dp"
+                android:maxLength="11"
+                android:paddingLeft="55dp" >
+            </EditText>
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@mipmap/zhanghao"
+                android:visibility="visible" />
+            <TextView
+                android:id="@+id/contry_n"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="+62"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/register_verifier"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_userphone"
+            android:layout_marginTop="6dp"
+            android:gravity="center" >
+            <EditText
+                android:id="@+id/register_verification_code_edit"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="接收的验证码"
+                android:inputType="number"
+                android:paddingRight="60dp"
+                android:maxLength="6"
+                android:background="#F0F0F0"
+                android:paddingLeft="55dp" >
+            </EditText>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/register_send_verification_code"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/select"
+                android:text="发送验证码"/>
+
+        </FrameLayout>
+        <Button
+            android:id="@+id/register_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/register_verifier"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="34dp"
+            android:background="@drawable/select"
+            android:textSize="18sp"
+            android:text="下一步"
+            android:enabled="false"
+            android:textColor="#ffffff" />
+         />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/register_verifier"
+            android:visibility="invisible"
+            android:text="00秒后重新发送" />
+    </RelativeLayout>
+
+</RelativeLayout>

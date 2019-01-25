@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--中间布局-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/list_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#0cbfe8">
+
+        <ImageView
+            android:id="@+id/list_return_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@mipmap/return_menu"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="所有设备"
+            />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/list_title_bar"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂时仅支持水浴锅敬请期待..."
+            android:textSize="40sp"/>
+    </LinearLayout>
+
+</RelativeLayout>
+

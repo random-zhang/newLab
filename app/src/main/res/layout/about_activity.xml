@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--中间布局-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/about_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#0cbfe8">
+
+        <ImageView
+            android:id="@+id/about_return_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@mipmap/return_menu"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="关于"
+            />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/about_title_bar"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                  android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                  android:src="@mipmap/icon"
+                  android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/about_hello"
+                android:text="欢迎使用本系统"
+                 />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/about_hello"
+                android:gravity="center"
+                android:id="@+id/about_version"
+                android:text="新实验室 Version 1.0.0"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/about_feedback"
+                android:gravity="center"
+                android:background="@color/milkwhite"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/about_version"
+                android:text="反馈意见"
+                />
+
+         </RelativeLayout>
+ </LinearLayout>
+</RelativeLayout>
+

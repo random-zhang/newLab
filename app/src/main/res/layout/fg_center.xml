@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/fg_center_user_info_team"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/userImage"
+            android:background="@mipmap/default_portrait"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_center_user_name"
+            android:layout_toRightOf="@+id/userImage"
+            android:layout_marginStart="20dp"
+            android:text="未登录"
+            android:textColor="@color/smssdk_black"
+            android:textSize="32sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_center_user_id"
+            android:layout_below="@id/fg_center_user_name"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/userImage"
+            android:text="点击注册登录"
+            android:textSize="17sp"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@id/fg_center_user_info_team">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fg_center_ListView">
+        </ListView>
+    </LinearLayout>
+
+</RelativeLayout>
