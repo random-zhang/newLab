@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lab.ourteam.newlab.Bean.CardViewBean;
@@ -23,6 +24,21 @@ public class cardViewAdapter extends RecyclerView.Adapter<cardViewAdapter.ItemCa
         beans=CardDataUtils.getCardViewDatas();
         mInflater=LayoutInflater.from(context);
     }
+    public void addNewItem(String title,int color) {
+        if(beans == null) {
+            beans = new ArrayList<>();
+        }
+        beans.add(0, new  CardViewBean(color,title));
+        ////更新数据集不是用adapter.notifyDataSetChanged()而是notifyItemInserted(position)与notifyItemRemoved(position) 否则没有动画效果。
+        notifyItemInserted(0);
+    }
+    /*public void deleteItem() {
+        if(beans == null || beans.isEmpty()) {
+            return;
+        }
+        beans.remove(0);
+        notifyItemRemoved(0);
+    }*/
     @Override
     public ItemCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view=mInflater.inflate(R.layout.item_cardview_layout,parent,false);
