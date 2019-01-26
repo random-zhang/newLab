@@ -24,9 +24,6 @@ public class contacts_activity extends Activity implements Iactivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contacts_activity);
         initID();
-       // TextView tvHeader=new TextView(this);
-       // tvHeader.setText("城市列表头");
-        //contacts_friends_list.addHeaderView(tvHeader);
         List<listviewBean> mList = new ArrayList<>();
         mList.add(new listviewBean(R.mipmap.groupChat,"群聊",1));
         myAdapter adapter = new myAdapter(this, mList);
@@ -40,7 +37,10 @@ public class contacts_activity extends Activity implements Iactivity {
         contacts_friends_list=findViewById(R.id.contacts_friends_list);
     }
     public void createContactLists(){//通讯录界面好友ListView
-
+        //每个ListView加表头
+        // TextView tvHeader=new TextView(this);
+        // tvHeader.setText("城市列表头");
+        //contacts_friends_list.addHeaderView(tvHeader);
     }
     @Override
     public void onClick(View v) {
