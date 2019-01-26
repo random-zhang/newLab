@@ -19,9 +19,9 @@ public class contacts_activity extends Activity implements Iactivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contacts_activity);
         initID();
-        TextView tvHeader=new TextView(this);
-        tvHeader.setText("城市列表头");
-        contacts_friends_list.addHeaderView(tvHeader);
+       // TextView tvHeader=new TextView(this);
+       // tvHeader.setText("城市列表头");
+        //contacts_friends_list.addHeaderView(tvHeader);
         returnMenu.setOnClickListener(this);
     }
 
