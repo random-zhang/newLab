@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lab.ourteam.newlab.Adapter.cardViewAdapter;
+import lab.ourteam.newlab.R;
 
 public class fg_contrl extends Fragment implements View.OnClickListener{
     private View view;

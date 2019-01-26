@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,19 +19,23 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import lab.ourteam.newlab.Adapter.myAdapter;
+import lab.ourteam.newlab.Bean.listviewBean;
+import lab.ourteam.newlab.Constant;
+import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.activity.login_Activity;
 import lab.ourteam.newlab.event.MessageEvent;
+import lab.ourteam.newlab.activity.user_info_activity;
 
 public class fg_center extends Fragment {
     private ListView listView;
     private View view;
-    private List<model> viewList;
+    private List<listviewBean> viewList;
     private myAdapter viewList_adapter;
     private RelativeLayout user_info_team;
     private TextView fg_center_user_name,fg_center_user_id;
@@ -56,9 +60,9 @@ public class fg_center extends Fragment {
     }
     private void initListView(){
         viewList= new ArrayList<>();
-      viewList.add(new model(R.mipmap.myhistory,"历史记录",101));
-      viewList.add(new model(R.mipmap.mydevice,"我的设备",102));
-      viewList.add(new model(R.mipmap.myvideo,"我的视频",103));
+      viewList.add(new listviewBean(R.mipmap.myhistory,"历史记录",101));
+      viewList.add(new listviewBean(R.mipmap.mydevice,"我的设备",102));
+      viewList.add(new listviewBean(R.mipmap.myvideo,"我的视频",103));
       viewList_adapter=new myAdapter(getContext(),viewList);
       listView.setAdapter(viewList_adapter);
       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

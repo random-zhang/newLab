@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import lab.ourteam.newlab.R;
 
 public class about_Activity extends  Activity {
     private ImageView returnMenu;

@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import lab.ourteam.newlab.Constant;
+import lab.ourteam.newlab.MyAsyncTask;
+import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.myApplication;
 
 public class finish_register extends Activity {
     private EditText register_username_edit;

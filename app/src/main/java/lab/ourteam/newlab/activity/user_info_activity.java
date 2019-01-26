@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,14 +27,14 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import lab.ourteam.newlab.Constant;
+import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.event.MessageEvent;
+import lab.ourteam.newlab.fragment.fg_center;
 
 
 public class user_info_activity extends Activity {

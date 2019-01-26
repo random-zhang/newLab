@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -27,9 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lab.ourteam.newlab.MQTTMessage;
-import lab.ourteam.newlab.MQTTService;
+import lab.ourteam.newlab.service.MQTTService;
 import lab.ourteam.newlab.R;
-import lab.ourteam.newlab.class_selector;
+import lab.ourteam.newlab.selector.class_selector;
 import lab.ourteam.newlab.pause_State;
 import lab.ourteam.newlab.result_bridge;
 

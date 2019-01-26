@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.app.AlertDialog;
 import android.app.AppOpsManager;
@@ -20,7 +20,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -29,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -42,13 +40,23 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import lab.ourteam.newlab.Adapter.myAdapter;
+import lab.ourteam.newlab.Bean.listviewBean;
+import lab.ourteam.newlab.MQTTMessage;
+import lab.ourteam.newlab.service.MQTTService;
+import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.fragment.fg_people;
+import lab.ourteam.newlab.fragment.fg_center;
+import lab.ourteam.newlab.fragment.fg_contrl;
 import lab.ourteam.newlab.fragment.fg_news;
+import lab.ourteam.newlab.myFragmentPagerAdapter;
+import lab.ourteam.newlab.result_bridge;
+import lab.ourteam.newlab.store;
 
 public class MainActivity extends AppCompatActivity  {
     private String TAG = "MQTTService";
     private static final String SETTINGS_ACTION="android.settings.APPLICATION_DETAILS_SETTINGS";
-    private List<model> mList = new ArrayList<model>();
+    private List<listviewBean> mList = new ArrayList<>();
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
     private long lastBack = 0;
@@ -157,10 +165,10 @@ public class MainActivity extends AppCompatActivity  {
                     MainActivity.this.startActivity(intent);
                     break;
                 }
-                case 1://切换到设备列表
+                case 1://切换到联系人
                 {
                     Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, list_Activity.class);
+                    intent.setClass(MainActivity.this, contacts_activity.class);
                     MainActivity.this.startActivity(intent);
                     break;
                 }
@@ -190,11 +198,11 @@ public class MainActivity extends AppCompatActivity  {
     });
 }
     private void initList() {
-        mList.add(new model(R.mipmap.data, "曲线图", 1));
-        mList.add(new model(R.mipmap.shebei, "通讯录", 2));
-        mList.add(new model(R.mipmap.store, "商城", 3));
-        mList.add(new model(R.mipmap.edit, "设置", 4));
-        mList.add(new model(R.mipmap.about, "关于", 5));
+        mList.add(new listviewBean(R.mipmap.data, "曲线图", 1));
+        mList.add(new listviewBean(R.mipmap.shebei, "通讯录", 2));
+        mList.add(new listviewBean(R.mipmap.store, "商城", 3));
+        mList.add(new listviewBean(R.mipmap.edit, "设置", 4));
+        mList.add(new listviewBean(R.mipmap.about, "关于", 5));
     }
     public void setNavigation(){
         navigation.setOnNavigationItemSelectedListener(mNavigationItemListener);

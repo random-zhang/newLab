@@ -1,19 +1,19 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class setting_Activity extends Activity {
+import lab.ourteam.newlab.Presenter.loginPresenter;
+import lab.ourteam.newlab.R;
+
+public class devices_activity extends Activity {
     private ImageView returnMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_activity);
-        Intent intent = getIntent();
-        returnMenu=(ImageView)findViewById(R.id.setting_return_menu);
+        setContentView(R.layout.login_activity);
         returnMenu.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) { finish(); }});
     }
 }

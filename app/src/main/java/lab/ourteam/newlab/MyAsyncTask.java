@@ -31,7 +31,7 @@ import java.net.URLEncoder;
     private String phone;
     private String password;
 
-    MyAsyncTask(String url, Context context) {
+    public  MyAsyncTask(String url, Context context) {
         this.Url = url;
         this.context = context;
     }

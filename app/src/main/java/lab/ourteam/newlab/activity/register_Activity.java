@@ -1,7 +1,6 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +30,9 @@ import java.net.URLEncoder;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import lab.ourteam.newlab.Constant;
+import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.myApplication;
 
 public class register_Activity extends Activity {
     private ImageView return_View;

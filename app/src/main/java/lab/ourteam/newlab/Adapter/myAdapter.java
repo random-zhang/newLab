@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 
+import lab.ourteam.newlab.Bean.listviewBean;
+import lab.ourteam.newlab.R;
+
 public class myAdapter extends BaseAdapter {
     private Context context;
-    private List<model> list;
-    public myAdapter(Context context, List<model> list){
+    private List<listviewBean> list;
+    public myAdapter(Context context, List<listviewBean> list){
         this.context=context;
         this.list=list;
     }

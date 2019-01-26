@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/contacts_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#0cbfe8">
+
+        <ImageView
+            android:id="@+id/contacts_return_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@mipmap/return_menu" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="通讯录" />
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="30dp"
+            android:id="@+id/addFriends"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:background="@mipmap/addFriends" />
+    </RelativeLayout>
+    <SearchView
+        android:id="@+id/contacts_searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contacts_title_bar"
+        android:iconifiedByDefault="false"
+        android:queryHint="搜索内容" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contacts_function_list"
+        android:layout_below="@id/contacts_searchView">
+    </ListView>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contacts_friends_list"
+        android:layout_below="@id/contacts_function_list">
+    </ListView>
+
+
+</RelativeLayout>
+
+

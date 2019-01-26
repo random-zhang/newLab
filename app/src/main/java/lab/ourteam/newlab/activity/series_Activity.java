@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import lab.ourteam.newlab.service.MQTTService;
+import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.pointValueMessage;
+import lab.ourteam.newlab.selector.class_selector;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -260,7 +264,7 @@ public class series_Activity extends Activity {
                  }
              }
              Intent i=new Intent(series_Activity.this,MQTTService.class);
-             i.putExtra("class_selector",class_selector.series_Activity);
+             i.putExtra("class_selector", class_selector.series_Activity);
              Toast.makeText(series_Activity.this,"sv"+Sv,Toast.LENGTH_SHORT).show();
              i.putExtra("series_time",Time);
              i.putExtra("isdraw",true);

@@ -16,7 +16,6 @@ import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.Presenter.loginPresenter;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.View.loginView;
-import lab.ourteam.newlab.register_Activity;
 
 public class login_Activity extends Activity implements loginView {
     private ImageView returnMenu;

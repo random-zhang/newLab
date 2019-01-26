@@ -1,6 +1,5 @@
-package lab.ourteam.newlab;
-
-public class model {
+package lab.ourteam.newlab.Bean;
+   public class listviewBean{
     private int imageView;
     private String text;
     private int id;
@@ -11,10 +10,7 @@ public class model {
     {
         this.id=id;
     }
-    public model(){
-
-    }
-    public model(int imageView, String text, int id){
+    public listviewBean(int imageView, String text, int id){
         this.id=id;
         this.imageView=imageView;
         this.text=text;

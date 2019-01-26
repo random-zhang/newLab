@@ -1,4 +1,4 @@
-package lab.ourteam.newlab;
+package lab.ourteam.newlab.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -31,6 +31,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import lab.ourteam.newlab.MQTTMessage;
+import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.pause_State;
+import lab.ourteam.newlab.pointValueMessage;
+import lab.ourteam.newlab.result_bridge;
+import lab.ourteam.newlab.selector.class_selector;
 import lecho.lib.hellocharts.model.PointValue;
 
 public class MQTTService extends Service {
