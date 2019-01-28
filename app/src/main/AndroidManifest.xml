@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".myApplication"
         android:allowBackup="true"
@@ -38,16 +39,19 @@
         <service android:name=".service.MQTTService" />
 
         <activity android:name=".store" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="lab.ourteam.newlab"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
             >
         </provider>
 
-</application>
+        <activity android:name=".devices_activity"></activity>
+    </application>
 
 </manifest>

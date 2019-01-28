@@ -10,16 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:id="@+id/item_imageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/friend_item_imageView"
             android:src="@drawable/ic_launcher_background"/>
 
         <TextView
-            android:id="@+id/item_textView"
+            android:id="@+id/friend_item_textView"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginStart="45dp"
+            android:layout_marginStart="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:text="aa"

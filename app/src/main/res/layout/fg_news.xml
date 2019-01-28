@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fg_news"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fg_news_function_list">
+    </ListView>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fg_news_friends_list"
+        android:layout_below="@id/contacts_function_list">
+    </ListView>
+</RelativeLayout>
 
-</LinearLayout>
+
+

@@ -1,7 +1,7 @@
 package lab.ourteam.newlab.Bean;
    public class listviewBean{
     private int imageView;
-    private String text;
+    private String name,preview;
     private int id;
     public int getId(){
         return id;
@@ -10,22 +10,38 @@ package lab.ourteam.newlab.Bean;
     {
         this.id=id;
     }
-    public listviewBean(int imageView, String text, int id){
+    public listviewBean(int imageView, String name, int id){
         this.id=id;
         this.imageView=imageView;
-        this.text=text;
+        this.name=name;
+        this.preview=null;
     }
-    public int getImageView() {
+       public listviewBean(int imageView, String name,String preview,int id){
+           this.id=id;
+           this.imageView=imageView;
+           this.name=name;
+           this.preview=preview;
+       }
+
+       public int getImageView() {
         return imageView;
     }
     public void setImageView(int imageView){
         this.imageView=imageView;
     }
-    public void setText(String text)
+    public void setName(String name)
     {
-        this.text=text;
+        this.name=name;
     }
-    public String getText(){
-        return text;
+    public String getName(){
+        return name;
     }
-}
+
+       public void setPreview(String preview) {
+           this.preview = preview;
+       }
+
+       public String getPreview() {
+           return preview;
+       }
+   }

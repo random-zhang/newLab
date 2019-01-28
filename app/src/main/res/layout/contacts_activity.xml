@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list"
+    android:id="@+id/contacts_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:background="@mipmap/addFriends" />
+            android:background="@mipmap/addfriends" />
     </RelativeLayout>
     <SearchView
         android:id="@+id/contacts_searchView"
@@ -49,6 +49,14 @@
         android:id="@+id/contacts_function_list"
         android:layout_below="@id/contacts_searchView">
     </ListView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contacts_friends_linearLayout"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
