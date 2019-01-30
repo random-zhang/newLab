@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity  {
     }
     public void initId() {
         mListView = (ListView) findViewById(R.id.left_listview);
-        adapter = new myAdapter(this, mList);
+        adapter = new myAdapter(this, mList,R.layout.content_item);
         mListView.setAdapter(adapter);
         left_menu = (ImageView) findViewById(R.id.leftmenu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);

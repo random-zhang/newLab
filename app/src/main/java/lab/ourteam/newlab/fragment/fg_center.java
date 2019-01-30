@@ -63,7 +63,7 @@ public class fg_center extends Fragment {
       viewList.add(new listviewBean(R.mipmap.myhistory,"历史记录",101));
       viewList.add(new listviewBean(R.mipmap.mydevice,"我的设备",102));
       viewList.add(new listviewBean(R.mipmap.myvideo,"我的视频",103));
-      viewList_adapter=new myAdapter(getContext(),viewList);
+      viewList_adapter=new myAdapter(getContext(),viewList,R.layout.content_item);
       listView.setAdapter(viewList_adapter);
       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent,View view,int position,long id){
