@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="130dp"
+    android:layout_height="150dp"
+    android:id="@+id/dCardView"
+    app:cardBackgroundColor="#79CDCD"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:cardMaxElevation="8dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="10dp">
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dcarditem_textView"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="设备"
+            android:textColor="#FFFFFF" />
+        <ImageView
+            android:id="@+id/dcarditem_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/addfriends"
+            />
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+

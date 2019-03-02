@@ -15,4 +15,8 @@ public  class Constant {
     public static int   user_info_activity_request_code=9;
     public static int   user_info_activity_result_code=10;
     public static int   requestPermissionRequestCode=11;
+    public static int  fg_contrl_request_code=12;
+    public static int  wifiConfig_activity_result_code=13;
+    public static int devices_activity_request_code=14;
+    public static int devices_activity_result_code=15;
 }

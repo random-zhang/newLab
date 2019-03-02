@@ -41,18 +41,5 @@ public class fg_people extends Fragment implements Iactivity{//测试页面
         }
     }
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result !=null) {
-            if(result.getContents() ==null ) {
-                Log.d(getClass().getName(), "Cancelled");
-                Toast.makeText(getContext(),"扫描结果为空",Toast.LENGTH_LONG).show();
-            } else {
-                Log.d(getClass().getName(), "Scanned: " + result.getContents());
-                Toast.makeText(getContext(), result.getContents(),Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
 }

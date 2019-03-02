@@ -33,7 +33,6 @@ import lab.ourteam.newlab.result_bridge;
 
 public class device_activity extends Activity {
     private Switch on_off_switch;
-    private View view;
     private Button sheding;
     private Button dialog_cancel;
     private Button dialog_yes;
@@ -264,19 +263,19 @@ public class device_activity extends Activity {
         return  ;
     }
     public void initId(){
-        on_off_switch=(Switch)view.findViewById(R.id.on_off_switch);
-        sheding=(Button)view.findViewById(R.id.sheding);
-        appoint_selector=(TextView)view.findViewById(R.id.appoint_selector);
-        time_selector=(TextView)view.findViewById(R.id.time_selector);
-        sv_selector=(TextView) view.findViewById(R.id.sv_selector);
-        temperature=(TextView)view.findViewById(R.id.temperature) ;
-        hint_text=(TextView)view.findViewById(R.id.hint_text);
+        on_off_switch=(Switch)findViewById(R.id.on_off_switch);
+        sheding=(Button)findViewById(R.id.sheding);
+        appoint_selector=(TextView)findViewById(R.id.appoint_selector);
+        time_selector=(TextView)findViewById(R.id.time_selector);
+        sv_selector=(TextView)findViewById(R.id.sv_selector);
+        temperature=(TextView)findViewById(R.id.temperature) ;
+        hint_text=(TextView)findViewById(R.id.hint_text);
 
         temperature_dialog_yes=(Button)tempterature_view.findViewById(R.id.temperature_dialog_yes) ;
         temperature_dialog_cancel=(Button)tempterature_view.findViewById(R.id.temperature_dialog_cancel) ;
         dialog_cancel=(Button)time_dialog_view.findViewById(R.id.time_dialog_cancel);
         dialog_yes=(Button)time_dialog_view.findViewById(R.id.time_dialog_yes);
-        pause=(ToggleButton)view.findViewById(R.id.pause) ;
+        pause=(ToggleButton)findViewById(R.id.pause) ;
         appoint_hour_picker=(NumberPicker)appoint_dialog_view.findViewById(R.id.appoint_hour);
         appoint_minute_picker=(NumberPicker)appoint_dialog_view.findViewById(R.id.appoint_minute);
         appoint_second_picker=(NumberPicker) appoint_dialog_view.findViewById(R.id.appoint_second);

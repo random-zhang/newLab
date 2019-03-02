@@ -3,6 +3,7 @@ package lab.ourteam.newlab.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,7 +35,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lab.ourteam.newlab.Adapter.cardViewAdapter;
+import lab.ourteam.newlab.Bean.CardViewBean;
+import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.activity.device_activity;
+import lab.ourteam.newlab.activity.devices_activity;
+
+import static lab.ourteam.newlab.Constant.devices_activity_result_code;
 
 public class fg_contrl extends Fragment implements View.OnClickListener{
     private View view;
@@ -52,14 +60,36 @@ public class fg_contrl extends Fragment implements View.OnClickListener{
         recycler_cardview.setAdapter(adapter);
         add_device=getActivity().findViewById(R.id.add_device);
         add_device.setOnClickListener(this);
+        /*设置条目点击事件*/
+        adapter.setOnItemClickListener(new cardViewAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View v, int position) {
+                Intent intent=new Intent(getContext(),device_activity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id. add_device) {
-            adapter.addNewItem("新设备",R.color.cardView);
+        if(id == R.id.add_device) {
+            Intent intent=new Intent(getContext(),devices_activity.class);
+            startActivityForResult(intent, Constant.fg_contrl_request_code);//打开用户信息列表
+           // adapter.addNewItem("新设备",R.color.cardView);
+            //linearLayoutManager.scrollToPosition(0);
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode== Constant.fg_contrl_request_code&&resultCode==devices_activity_result_code){
+            //获取添加的设备信息
+            CardViewBean bean=(CardViewBean)data.getSerializableExtra("deviceName");
+            String title=bean.getTitle();
+            int color=bean.getColor();
+            int id=bean.getId();
+            adapter.addNewItem(title,color,id);
             linearLayoutManager.scrollToPosition(0);
         }
     }
