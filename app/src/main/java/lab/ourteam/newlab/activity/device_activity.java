@@ -329,6 +329,7 @@ public class device_activity extends Activity {
         String str=obj.toString();
         MQTTService.publish(str);
     }
+
     private void initListener() {//监听
         View.OnClickListener button_Listener=new View.OnClickListener(){
             @Override

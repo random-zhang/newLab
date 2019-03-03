@@ -28,7 +28,7 @@ public class dCardAdapter extends RecyclerView.Adapter<dCardAdapter .itemCardVie
         beans=dCardDataUtils.getCardViewDatas();
         mInflater=LayoutInflater.from(context);
     }
-    public  void addNewItem(Bitmap bitmap,String text) {
+    public  void addNewItem(int bitmap,String text) {
         if(beans == null) {
             beans = new ArrayList<>();
         }
@@ -52,7 +52,7 @@ public class dCardAdapter extends RecyclerView.Adapter<dCardAdapter .itemCardVie
     public void onBindViewHolder(itemCardViewHolder holder, int position) {
        // holder.item_cardview.setCardBackgroundColor(mContext.getResources().getColor(beans.get(position).getColor()));
         holder.item_tv.setText(beans.get(position).getText());
-        holder.item_imageView.setImageBitmap(beans.get(position).getBitmap());
+        holder.item_imageView.setImageResource(beans.get(position).getBitmap());
     }
     @Override   //返回item的数目
     public int getItemCount() {

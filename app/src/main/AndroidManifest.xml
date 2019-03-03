@@ -62,7 +62,8 @@
         <activity android:name=".activity.historyRecord_activity" />
         <activity android:name=".activity.devices_activity" />
         <activity android:name=".activity.device_activity" />
-        <activity android:name=".activity.wifiConfigActivity"></activity>
+        <activity android:name=".activity.wifiConfigActivity" />
+        <activity android:name=".activity.linkGuide"></activity>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import lab.ourteam.newlab.Adapter.cardViewAdapter;
+import lab.ourteam.newlab.Adapter.dCardAdapter;
 import lab.ourteam.newlab.Bean.CardViewBean;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.DragFloatActionButton;
@@ -62,7 +63,7 @@ public class devices_activity extends Activity implements Iactivity{
         GridLayoutManager gridLayoutManager=new GridLayoutManager(this,2);
         gridLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         devicesActivityRecyclerView.setLayoutManager(gridLayoutManager);
-        cardViewAdapter adapter=new cardViewAdapter(this);//设置适配的卡片
+        dCardAdapter adapter=new dCardAdapter(this);//设置适配的卡片
         devicesActivityRecyclerView.setAdapter(adapter);
     }
 

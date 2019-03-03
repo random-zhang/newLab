@@ -4,11 +4,13 @@ import android.support.design.widget.FloatingActionButton;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
+
+import lab.ourteam.newlab.Utils.ScreenUtils;
+
 public class DragFloatActionButton extends FloatingActionButton {
     private int screenWidth;
     private int screenHeight;
