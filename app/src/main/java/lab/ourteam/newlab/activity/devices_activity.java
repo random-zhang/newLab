@@ -5,32 +5,25 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import lab.ourteam.newlab.Adapter.cardViewAdapter;
 import lab.ourteam.newlab.Adapter.dCardAdapter;
 import lab.ourteam.newlab.Bean.CardViewBean;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.DragFloatActionButton;
 import lab.ourteam.newlab.R;
-import lab.ourteam.newlab.WifiAdmin;
 import lab.ourteam.newlab.WifiAutoConnectManager;
 
 import static lab.ourteam.newlab.Constant.devices_activity_result_code;

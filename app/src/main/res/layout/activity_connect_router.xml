@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/activity_connect_router_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#0cbfe8">
+
+        <ImageView
+            android:id="@+id/activity_connect_router_return_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@mipmap/return_menu"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="连接设备路由器"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/activity_connect_router_ssid_team"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="98dp"
+        android:visibility="invisible"
+        android:background="@drawable/radioshape">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_connect_router_ssid"
+            android:text="ssid"
+            android:layout_centerVertical="true"
+            android:textColor="@color/smssdk_black"
+            android:padding="20dp"
+            android:textSize="30sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击连接"
+            android:paddingRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/activity_connect_router_progress_team"
+        android:layout_below="@id/activity_connect_router_ssid_team"
+        android:layout_marginTop="40dp"
+
+        >
+        <WebView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_connect_router_webview"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="297dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/activity_connect_router_finish"
+        android:background="@color/DodgerBlue"
+        android:layout_marginBottom="49dp"
+        android:enabled="false"
+        android:text="完        成"/>
+
+
+
+</RelativeLayout>
+

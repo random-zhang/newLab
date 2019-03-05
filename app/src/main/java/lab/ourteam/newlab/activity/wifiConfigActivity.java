@@ -16,7 +16,7 @@ import lab.ourteam.newlab.R;
 
 import static lab.ourteam.newlab.Constant.wifiConfig_activity_result_code;
 
-public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
+public class wifiConfigActivity extends AppCompatActivity implements Iactivity {//扫描二维码情况下wifi配置页面
     private  WebView webView;
     private ImageView returnMenu;
     private TextView finish;

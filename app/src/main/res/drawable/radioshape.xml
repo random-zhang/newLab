@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid  android:color="#87CEEB"/>
-    <stroke android:color="#000000"
-        android:width="2px"/>
+
     <!--设置4个圆角的半径-->
-    <corners android:topLeftRadius="20px"
-        android:topRightRadius="20px"
-        android:bottomLeftRadius="20px"
-        android:bottomRightRadius="20px"/>
+    <corners android:topLeftRadius="50px"
+        android:topRightRadius="50px"
+        android:bottomLeftRadius="50px"
+        android:bottomRightRadius="50px"/>
     <padding android:bottom="5dp"
         android:left="5dp"
         android:right="5dp"
         android:top="5dp"/>
     <gradient android:angle="270"
-        android:startColor="#C0C0C0"
-        android:endColor="#FCD209"/>
+        android:startColor="#E0FFFF"
+        android:endColor="#EBEBEB"/>
 
 </shape>

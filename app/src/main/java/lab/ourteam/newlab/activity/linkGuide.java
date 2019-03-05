@@ -9,12 +9,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.WifiAutoConnectManager;
 
+import static lab.ourteam.newlab.Constant.connectRouter_result_code;
+import static lab.ourteam.newlab.Constant.linkGuide_request_code;
 import static lab.ourteam.newlab.Constant.linkGuide_result_code;
 
 public class linkGuide extends Activity implements View.OnClickListener{//连接引导基础类
     private Button next;//下一步
     private ImageView imageView,back;//引导图片,返回上一页
+    //private Class nextActivity;
+    private int imageResourceId;
+    linkGuide(int imageResourceId){
+        //this.nextActivity=nextActivity;
+        this.imageResourceId=imageResourceId;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,30 +34,27 @@ public class linkGuide extends Activity implements View.OnClickListener{//连接
         next.setOnClickListener(this);
         back.setOnClickListener(this);
         imageView.setOnClickListener(this);
+        imageView.setImageResource(imageResourceId);
     }
-
-
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.activity_link_next:{
-
+                //默认页面
+                Intent intent=new Intent(this,connectRouter.class);
+                startActivityForResult(intent,linkGuide_result_code);
                 break;
             }
-            /*case R.id.activity_link_imageView:{
-
-                break;
-            }*/
             case R.id.activity_link_return_menu:{
                 finish();
             }
         }
     }
-    public  void setNextActivity(Class cls ){
-        Intent intent=new Intent(this,cls);
-        startActivityForResult(intent,linkGuide_result_code);
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data){
+          if(requestCode==linkGuide_request_code&&resultCode==connectRouter_result_code){
+
+          }
     }
-    public void setImageView(int imageResourceId){//用于设置图片
-        imageView.setImageResource(imageResourceId);
-    }
+
 }

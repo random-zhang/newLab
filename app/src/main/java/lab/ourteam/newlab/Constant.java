@@ -20,5 +20,7 @@ public  class Constant {
     public static int devices_activity_request_code=14;
     public static int devices_activity_result_code=15;
     public static int linkGuide_result_code=16;
-    public static int linkGuide_request_code=16;
+    public static int linkGuide_request_code=17;
+    public static int connectRouter_result_code=18;
+    public static int connectRouter_request_code=19;
 }

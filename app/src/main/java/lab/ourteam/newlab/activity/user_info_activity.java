@@ -66,7 +66,6 @@ public class user_info_activity extends Activity {
         user_info_return_menu=findViewById(R.id.user_info_return_menu);
     }
     protected void initListener(){
-
         View.OnClickListener listener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {

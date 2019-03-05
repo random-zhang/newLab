@@ -1,9 +1,12 @@
 package lab.ourteam.newlab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -11,7 +14,8 @@ import java.util.List;
 
 public class WifiAutoConnectManager {
     private static final String TAG = WifiAutoConnectManager.class.getSimpleName();
-    WifiManager wifiManager;
+    private Context mContext;
+    public WifiManager wifiManager;
     // 定义几种加密方式，一种是WEP，一种是WPA，还有没有密码的情况
     public enum WifiCipherType {
         WIFICIPHER_WEP, WIFICIPHER_WPA, WIFICIPHER_NOPASS, WIFICIPHER_INVALID
@@ -19,6 +23,7 @@ public class WifiAutoConnectManager {
     // 构造函数
     public WifiAutoConnectManager(Context mContext) {
         this.wifiManager = (WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        this.mContext=mContext;
     }
 
     // 提供一个外部接口，传入要连接的无线网
@@ -26,11 +31,13 @@ public class WifiAutoConnectManager {
         Thread thread = new Thread(new ConnectRunnable(ssid, password, type));
         thread.start();
     }
+    public boolean isOpen(){//判断wifi是否已经打开
+        return wifiManager.getWifiState()==WifiManager.WIFI_STATE_ENABLED;
+    }
 
     // 查看以前是否也配置过这个网络
     private WifiConfiguration isExsits(String SSID) {
-        List<WifiConfiguration> existingConfigs = wifiManager.getConfiguredNetworks();
-
+        List<WifiConfiguration> existingConfigs =getConfigs();
         for (WifiConfiguration existingConfig : existingConfigs) {
             Log.i("所有SSID",existingConfig .SSID);
             if (existingConfig.SSID.equals("\"" + SSID + "\"")) {
@@ -39,6 +46,18 @@ public class WifiAutoConnectManager {
         }
         return null;
     }
+    private  List<WifiConfiguration> getConfigs(){
+        return wifiManager.getConfiguredNetworks();
+    }
+     public String getConfigSsid(String ssid){//获取指定的wifi  ssid由设备信息提供
+         List<WifiConfiguration> existingConfigs =getConfigs();
+         for (WifiConfiguration existingConfig : existingConfigs) {
+             if (existingConfig.SSID.equals("\"" +ssid+ "\"")) {
+                 return existingConfig.SSID;
+             }
+         }
+         return null;
+     }
 
     private WifiConfiguration createWifiInfo(String SSID, String Password, WifiCipherType Type) {
         WifiConfiguration config = new WifiConfiguration();
@@ -87,12 +106,21 @@ public class WifiAutoConnectManager {
     }
 
     // 打开wifi功能
-    private boolean openWifi() {
-        boolean bRet = true;
+    public  void openWifi() {
+        /*boolean bRet = true;
         if (!wifiManager.isWifiEnabled()) {
             bRet = wifiManager.setWifiEnabled(true);
         }
         return bRet;
+        */
+        Intent i = new Intent();
+        if (Build.VERSION.SDK_INT >= 11) {
+            //Honeycomb
+        i.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+        } else {//other versions
+          i.setClassName("com.android.settings", "com.android.settings.wifi.WifiSettings");
+        }
+        mContext.getApplicationContext().startActivity(i);
     }
 
     // 关闭WIFI
@@ -114,11 +142,15 @@ public class WifiAutoConnectManager {
         @Override
         public void run() {
             // 打开wifi
-            openWifi();
+            if (wifiManager.getWifiState()!=WifiManager.WIFI_STATE_ENABLED)
+                     openWifi();
             // 开启wifi功能需要一段时间(一般需要1-3秒左右)，所以要等到wifi
             // 状态变成WIFI_STATE_ENABLED的时候才能执行下面的语句
+
+                 Log.i("wifi状态",wifiManager.getWifiState()+"");
             while (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLING) {
                 try {
+
                     // 为了避免程序一直while循环，让它睡个200毫秒检测……
                     Thread.sleep(200);
                     Log.e(TAG,"wifi状态"+wifiManager.getWifiState());
@@ -193,5 +225,6 @@ public class WifiAutoConnectManager {
         }
         return WifiCipherType.WIFICIPHER_INVALID;
     }
+
 }
 
