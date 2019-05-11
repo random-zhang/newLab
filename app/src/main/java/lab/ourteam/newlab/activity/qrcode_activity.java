@@ -21,7 +21,7 @@ import java.util.List;
 
 import lab.ourteam.newlab.R;
 
-public class qrcode_activity extends AppCompatActivity implements  Iactivity {
+public class qrcode_activity extends AppCompatActivity implements  Iactivity {//二维码扫描页面
     private CaptureManager capture;
     private DecoratedBarcodeView bv_barcode;
     @Override

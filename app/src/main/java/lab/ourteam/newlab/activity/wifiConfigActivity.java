@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lab.ourteam.newlab.Bean.CardViewBean;
+import lab.ourteam.newlab.Bean.devicebean;
 import lab.ourteam.newlab.Bean.listviewBean;
 import lab.ourteam.newlab.R;
 
@@ -25,7 +26,7 @@ public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_config);
         initID();
-        webView.loadUrl("https://192.168.4.1");
+        webView.loadUrl("https://192.168.4.1");//连上设备wifi后打开设备wifi配置页面
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -33,7 +34,6 @@ public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
             }
         });
     }
-
     @Override
     public void initID() {
         webView=findViewById(R.id.testwebview);
@@ -49,11 +49,13 @@ public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
            case R.id.wifiConfig_activity_return_menu:{
                break;
            }
-           case R.id.wifiConfig_activity_finish:{//配置完成后在fg_contrl页面添加设备信息
+           case R.id.wifiConfig_activity_finish:{
+               //如果成功完成配置，则在fg_contrl页面添加设备信息
                //发送指定设备信息给上个页面,并关闭当前页面
                Intent intent=new Intent();
-               CardViewBean bean=new CardViewBean(Color.BLUE,"水浴锅",1);
-               intent.putExtra("deviceName",bean);
+               intent.putExtra("status",1);
+               // devicebean bean=new devicebean(1,"水浴锅");
+               //intent.putExtra("deviceMAC",getIntent().getStringExtra("deviceMAC"));
                setResult(wifiConfig_activity_result_code,intent);
                finish();
                break;

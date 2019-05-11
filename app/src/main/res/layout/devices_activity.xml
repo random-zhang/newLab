@@ -32,18 +32,22 @@
             android:layout_marginEnd="10dp"
             android:background="@mipmap/qrcode" />
     </RelativeLayout>
-    <SearchView
-        android:id="@+id/devices_activity_searchView"
+
+    <TextView
+        android:id="@+id/devices_activity_surroundDevices"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_below="@id/devices_activity_title_bar"
         android:iconifiedByDefault="false"
-        android:queryHint="搜索内容" />
+        android:text="周边设备"
+        android:textSize="20sp"
+        android:gravity="center"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/devices_activity_recyclerView"
         android:divider="#ffff0000"
         android:dividerHeight="10dp"
-        android:layout_below="@id/devices_activity_searchView"
+        android:layout_below="@id/devices_activity_surroundDevices"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

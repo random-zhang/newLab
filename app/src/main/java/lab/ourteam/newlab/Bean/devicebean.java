@@ -2,7 +2,7 @@ package lab.ourteam.newlab.Bean;
 
 import java.io.Serializable;
 
-public class devicebean implements Serializable {
+public class devicebean implements Serializable {//保存了设备的信息
     private int deviceId;
     private String deviceName;
     public devicebean(int deviceId,String deviceName){

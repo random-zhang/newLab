@@ -16,21 +16,24 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import lab.ourteam.newlab.Adapter.myAdapter;
+import lab.ourteam.newlab.Bean.User;
 import lab.ourteam.newlab.Bean.listviewBean;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.activity.login_Activity;
 import lab.ourteam.newlab.event.MessageEvent;
 import lab.ourteam.newlab.activity.user_info_activity;
+
+import static lab.ourteam.newlab.Utils.saveToLocation.getUserInfo;
 
 public class fg_center extends Fragment {
     private ListView listView;
@@ -40,8 +43,6 @@ public class fg_center extends Fragment {
     private RelativeLayout user_info_team;
     private TextView fg_center_user_name,fg_center_user_id;
     private ImageView userImage;
-    private  static boolean isLogin=true;
-    private static  String userID=null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view=inflater.inflate(R.layout.fg_center,container,false);
@@ -49,6 +50,7 @@ public class fg_center extends Fragment {
         initId();
         initListView();
         initListener();
+        initUI();
         return view;
     }
     private void initId(){
@@ -58,6 +60,21 @@ public class fg_center extends Fragment {
         userImage=view.findViewById(R.id.userImage);
         fg_center_user_id=view.findViewById(R.id.fg_center_user_id);
     }
+    private void initUI(){
+        User user= null;//先从本地查找用户信息
+        try {
+            user = getUserInfo(getContext());
+            if(user==null){//找不到转入登录系统
+            }else{//找到呈现在页面上
+                fg_center_user_id.setText("ID:"+user.getUserid());
+                fg_center_user_name.setText(user.getUsername());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void initListView(){
         viewList= new ArrayList<>();
       viewList.add(new listviewBean(R.mipmap.myhistory,"历史记录",101));
@@ -87,14 +104,16 @@ public class fg_center extends Fragment {
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent();
-                    if(isLogin)
-                        intent.setClass(getContext(), login_Activity.class);
-                    else {
-                        //将userID传进去
-                        intent.putExtra("userID",userID);
-                        intent.setClass(getContext(), user_info_activity.class);
+                    try {
+                        if(getUserInfo(getContext())==null)//是否打开登录界面
+                            intent.setClass(getContext(), login_Activity.class);
+                        else {
+                            intent.setClass(getContext(), user_info_activity.class);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                        startActivityForResult(intent, Constant.fg_center_request_code);//打开用户信息列表
+                    startActivityForResult(intent, Constant.fg_center_request_code);//打开用户信息列表
                 }catch (NullPointerException e){
                     e.printStackTrace();
                 }
@@ -104,12 +123,11 @@ public class fg_center extends Fragment {
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==Constant.fg_center_request_code&&resultCode== Constant.login_activity_result_code){
-            HashMap map=(HashMap)data.getSerializableExtra("userInfo");
-            fg_center_user_name.setText((String)map.get("userName"));
-            userID=(String)map.get("userID");
-            //关闭登录界面
-            isLogin=false;
-            fg_center_user_id.setText("ID:"+userID);
+            User user=(User)data.getSerializableExtra("userInfo");
+            fg_center_user_name.setText(user.getUsername());
+            fg_center_user_id.setText("ID:"+user.getUserid());
+            //头像设置
+
         }
         if(requestCode==Constant.fg_center_request_code&&resultCode== Constant.user_info_activity_result_code){
             userImage.setImageURI(Uri.parse(data.getStringExtra("userInfoPortrait")));

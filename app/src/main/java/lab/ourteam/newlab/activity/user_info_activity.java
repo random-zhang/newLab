@@ -31,8 +31,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import lab.ourteam.newlab.Bean.User;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.Utils.saveToLocation;
 import lab.ourteam.newlab.event.MessageEvent;
 import lab.ourteam.newlab.fragment.fg_center;
 
@@ -54,6 +56,7 @@ public class user_info_activity extends Activity {
         setContentView(R.layout.user_info_layout);
         //EventBus.getDefault().register(this);
         initId();
+        initUI();
         initListener();
     }
     protected  void initId(){
@@ -64,6 +67,20 @@ public class user_info_activity extends Activity {
         user_info_birthday=findViewById(R.id.user_info_birthday);
         user_info_portrait_team=findViewById(R.id.user_info_portrait_team);
         user_info_return_menu=findViewById(R.id.user_info_return_menu);
+    }
+    protected void initUI(){//初始化UI
+        User user= null;
+        try {
+            user = saveToLocation.getUserInfo(this);
+            if(user!=null)
+                user_info_nackName.setText(user.getUsername());
+            user_info_phone.setText(user.getUserphone());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        //user_info_sex.setText(user.)
+        //初始化图像
     }
     protected void initListener(){
         View.OnClickListener listener=new View.OnClickListener() {
@@ -84,7 +101,7 @@ public class user_info_activity extends Activity {
         user_info_portrait_team.setOnClickListener(listener);
         user_info_return_menu.setOnClickListener(listener);
     }
-    public AlertDialog setPortriatSelectorDialog(){
+    public AlertDialog setPortriatSelectorDialog(){//设置头像
          View portriat_selector_view;
          LayoutInflater inflater=getLayoutInflater();
          AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -136,15 +153,6 @@ public class user_info_activity extends Activity {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, Activity.DEFAULT_KEYS_DIALER);
-    }
-    public void getUserInfo(){
-        String userID=getIntent().getStringExtra("userID");
-        if(userID!=null) {
-            //sql获取服务器的用户信息
-
-
-        }
-            return;
     }
     public void applyWritePermission() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};

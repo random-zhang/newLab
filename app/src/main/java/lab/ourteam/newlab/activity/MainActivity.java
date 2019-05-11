@@ -51,7 +51,6 @@ import lab.ourteam.newlab.fragment.fg_contrl;
 import lab.ourteam.newlab.fragment.fg_news;
 import lab.ourteam.newlab.myFragmentPagerAdapter;
 import lab.ourteam.newlab.result_bridge;
-import lab.ourteam.newlab.store;
 
 public class MainActivity extends AppCompatActivity  {
     private String TAG = "MQTTService";
@@ -199,7 +198,7 @@ public class MainActivity extends AppCompatActivity  {
     private void initList() {
         mList.add(new listviewBean(R.mipmap.data, "曲线图", 1));
         mList.add(new listviewBean(R.mipmap.shebei, "通讯录", 2));
-        mList.add(new listviewBean(R.mipmap.store, "商城", 3));
+        mList.add(new listviewBean(R.mipmap.store, "测试", 3));
         mList.add(new listviewBean(R.mipmap.edit, "设置", 4));
         mList.add(new listviewBean(R.mipmap.about, "关于", 5));
     }

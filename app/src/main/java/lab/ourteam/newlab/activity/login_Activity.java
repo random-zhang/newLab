@@ -12,10 +12,13 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import lab.ourteam.newlab.Bean.User;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.Presenter.loginPresenter;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.View.loginView;
+
+import static lab.ourteam.newlab.Utils.saveToLocation.saveUserInfo;
 
 public class login_Activity extends Activity implements loginView {
     private ImageView returnMenu;
@@ -79,16 +82,17 @@ public class login_Activity extends Activity implements loginView {
     }
 
     @Override
-    public void onLoginSeccess(HashMap map){
+    public void onLoginSeccess(User user){
        //更新UI
-        intent.putExtra("userInfo",(Serializable)map);
+        intent.putExtra("userInfo",(Serializable)user);//把获取到的用户信息返回给上一层
+        saveUserInfo(user,this);//把用户信息保存在本地
         setResult(Constant.login_activity_result_code, intent);
+        Toast.makeText(getApplicationContext(), "登陆成功！", Toast.LENGTH_LONG).show();
         finish();
-       // Toast.makeText(getApplicationContext(), "登陆成功！", Toast.LENGTH_LONG).show();
     }
     @Override
     public void onLoginFails(){
-        Toast.makeText(getApplicationContext(), "登陆失败！", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "账户或密码错误！", Toast.LENGTH_LONG).show();
     }
 
     @Override

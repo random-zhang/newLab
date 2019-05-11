@@ -39,17 +39,17 @@ import lab.ourteam.newlab.result_bridge;
 import lab.ourteam.newlab.selector.class_selector;
 import lecho.lib.hellocharts.model.PointValue;
 
-public class MQTTService extends Service {
+public class MQTTService extends Service {//mqtt传输服务
     public static final String TAG=MQTTService.class.getSimpleName();
     private static MqttAndroidClient client;
     private MqttConnectOptions conOpt;
     private String host="tcp://47.100.47.134:1883";
     private  String userName="admin";
     private String passWord="public";
-    private static String subTopic="$dp";
-    private static String pubTopic="master_computer";
+    private static String subTopic="$dp";//订阅的主题
+    private static String pubTopic="master_computer";//发送的对象
     private static String clientId="android";
-    private List<PointValue> pointvaluelist=null;
+    private List<PointValue> pointvaluelist=null;//坐标点
     private int k=10;
     private int j=0;
     private long total=0;
@@ -143,18 +143,16 @@ public class MQTTService extends Service {
         }
         return super.onStartCommand(intent,flags,startId);
     }
-    public static void publish(String msg){
-        String topic=pubTopic;
+    public static void publish(int subId,String msg){//发送数据
+        String topic=pubTopic+subId;
         Integer qos=0;
         Boolean retained=false;
         try{
             client.publish(topic,msg.getBytes(),qos.intValue(),retained.booleanValue());
        }catch(MqttException e){
-
         }
     }
     private void init() {
-
         String uri=host;
     client=new MqttAndroidClient(this,uri,clientId);
     //设置监听并回调消息
@@ -332,30 +330,11 @@ public class MQTTService extends Service {
             manager.notify(1,notification);
             startForeground(1,notification);
         }
-
-     /* Notification.Builder builder=new Notification.Builder(this.getApplicationContext(),);
-      Intent nfIntent=new Intent(this,MainActivity.class);
-      builder.setContentIntent(PendingIntent.getActivity(this,0,nfIntent,0))
-              .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.icon))
-
-      .setSmallIcon(R.mipmap.ic_launcher)
-
-      .setWhen(System.currentTimeMillis());//设置该通知发生时间
-      Notification notification=builder.build();
-     */
-
     }
 public void initTimer(){
-      //  new Thread(new Runnable() {
-          //  @Override
-           // public void run() {
-                //int second_time=0;//计时作用,单位秒
-              //  Toast.makeText(getApplicationContext(),"创建新线程",Toast.LENGTH_SHORT).show();
     if(mc!=null) mc.cancel();
                mc=new myCount((int)(appoint_time+sv_time)*60*1000,1000);
                mc.start();
-      //      }
-      //  }).start();
 }
 //公共计时器
 class myCount extends CountDownTimer {
@@ -363,9 +342,6 @@ private long millisinfuture;//总时间
     public myCount(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
         this.millisinfuture=millisInFuture;
-        //Looper.prepare();
-       // Toast.makeText(getApplicationContext(),millisInFuture+"传入的秒数",Toast.LENGTH_SHORT).show();
-        //Looper.loop();
     }
     @Override
     public void onTick(long millisUntilFinished){//剩余时间
@@ -386,7 +362,6 @@ if(class_picker==class_selector.MainActivity) {
         }
        if(isAppoint&&(millisinfuture-millisUntilFinished)<appoint_Time){//如果有预约时间,且此时还处于预约状态(经过的时间小于预约总时间
            long time_remaining=millisUntilFinished-(long)(sv_time*60*1000);//剩余预约时间
-           //Toast.makeText(getApplicationContext(),time_remaining+"",Toast.LENGTH_SHORT).show();
            result_bridge msg=new result_bridge();
            msg.setAppoint(true);
            msg.setHint(false);
