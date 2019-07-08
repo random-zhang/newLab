@@ -30,7 +30,7 @@ import lab.ourteam.newlab.Bean.User;
         }
         FileOutputStream outputStream;
         try {
-            outputStream =context.openFileOutput("userInfo", Context.MODE_PRIVATE);
+            outputStream =context.openFileOutput("userInfo.txt", Context.MODE_PRIVATE);
             outputStream.write(obj.toString().getBytes("utf-8"));
             outputStream.close();
         } catch (Exception e) {
@@ -41,7 +41,7 @@ import lab.ourteam.newlab.Bean.User;
         byte[] buffer = new byte[1024];
         FileInputStream fileInputStream;
         try {
-            fileInputStream = context.openFileInput("userInfo");
+            fileInputStream =context.openFileInput("userInfo.txt");
             fileInputStream.read(buffer);
             fileInputStream.close();
         } catch (Exception e) {
@@ -54,7 +54,7 @@ import lab.ourteam.newlab.Bean.User;
         user.setUserphone(obj.getString("userPhone"));
         user.setUserid(obj.getIntValue("userId"));
         user.setUserpassword(obj.getString("userPassword"));
-        user.setUserportrait(context);
+        user.setUserportrait(context,obj.getIntValue("userId"));
         return user;
     }
     public static void saveUserFile(File file,String path,Context context){//把文件保存到指定路径

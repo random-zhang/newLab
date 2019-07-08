@@ -25,6 +25,19 @@
             android:gravity="center"
             android:text="水浴锅"
             />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="12dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:id="@+id/bath_activity_sublist"
+                android:background="@mipmap/sublist" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -42,6 +55,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:orientation="horizontal">
 
                 <TextView
@@ -54,13 +69,13 @@
                     android:text="设备编号 " />
 
                 <TextView
+                    android:id="@+id/bath_activity_subId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="59dp"
-                    android:id="@+id/bath_activity_subId"
                     android:text="编号" />
             </LinearLayout>
 
@@ -111,21 +126,12 @@
                 android:thumb="@drawable/my_thumb"
                 android:track="@drawable/switch_selector" />
 
-            <TextView
-                android:id="@+id/appoint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/on_off_switch"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="40dp"
-                android:text="预约时间"
-                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/appoint"
+                android:layout_below="@id/on_off_switch"
                 android:layout_marginTop="30dp"
                 android:paddingLeft="40dp"
                 android:text="加热时间"
@@ -142,22 +148,10 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/appoint_selector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/on_off_switch"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/appoint"
-                android:clickable="true"
-                android:text="00:00:00"
-                android:textSize="20sp" />
-
-            <TextView
                 android:id="@+id/time_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/appoint_selector"
+                android:layout_below="@id/on_off_switch"
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="30dp"
                 android:layout_toRightOf="@id/time"
@@ -204,7 +198,16 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
+    <lab.ourteam.newlab.DragFloatActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="37dp"
+        android:layout_marginEnd="36dp"
+        android:id="@+id/bathActivityFloatBtn"
+        android:foreground="@mipmap/asr" />
 </RelativeLayout>
 
 

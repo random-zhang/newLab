@@ -1,6 +1,7 @@
 package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -49,7 +50,8 @@ public class login_Activity extends Activity implements loginView {
             public void onClick(View v) {
                 switch(v.getId()){
                     case R.id.login_button:{
-                        mPresenter.login();
+                        Toast.makeText(getApplicationContext(),"暂不可用",Toast.LENGTH_SHORT).show();
+                      //  mPresenter.login();
                         break;
                     }
                     case R.id.register_button:{
@@ -93,6 +95,11 @@ public class login_Activity extends Activity implements loginView {
     @Override
     public void onLoginFails(){
         Toast.makeText(getApplicationContext(), "账户或密码错误！", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 
     @Override

@@ -44,17 +44,21 @@ public class loginModel implements IModel {
             {
                 return null ;
             }
+            /*
+               登录成功，获取基础信息
+             */
             JSONObject e = o.getJSONObject("user");
             if(e==null) return null;
             user=new User();
             user.setUserid(e.getIntValue("userId"));
             user.setUsername(e.getString("userName"));
             user.setUserpassword(e.getString("userPassword"));
-            user.setUserportrait(context);
+            /*
+              获取头像信息
+             */
+            user.setUserportrait(context,e.getIntValue("userId"));
             Log.i("登录",user.getUsername());
         }
           return user;
     }
-
-
 }

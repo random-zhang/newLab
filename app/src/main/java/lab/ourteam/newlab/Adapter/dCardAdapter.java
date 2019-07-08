@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lab.ourteam.newlab.Bean.CardViewBean;
+import lab.ourteam.newlab.Bean.Device;
 import lab.ourteam.newlab.Bean.dcardBean;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.Utils.CardDataUtils;
@@ -23,6 +24,7 @@ public class dCardAdapter extends RecyclerView.Adapter<dCardAdapter .itemCardVie
     private List<dcardBean> beans;
     private LayoutInflater mInflater;
     private Context mContext;
+    private  dCardAdapter.OnItemClickListener onItemClickListener;
     public dCardAdapter(Context context){
         this.mContext=context;
         beans=dCardDataUtils.getCardViewDatas();
@@ -35,6 +37,15 @@ public class dCardAdapter extends RecyclerView.Adapter<dCardAdapter .itemCardVie
         beans.add(0, new  dcardBean(bitmap,text));
         ////更新数据集不是用adapter.notifyDataSetChanged()而是notifyItemInserted(position)与notifyItemRemoved(position) 否则没有动画效果。
         notifyItemInserted(0);
+    }
+    /**
+     * 适配器的点击事件接口
+     */
+    public interface OnItemClickListener{
+        void OnItemClick(View v, int position);
+    }
+    public void setOnItemClickListener( dCardAdapter.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
     /*public void deleteItem() {
         if(beans == null || beans.isEmpty()) {
@@ -49,10 +60,18 @@ public class dCardAdapter extends RecyclerView.Adapter<dCardAdapter .itemCardVie
         return new itemCardViewHolder(view);
     }
     @Override   //用每个item数据来填充viewholder
-    public void onBindViewHolder(itemCardViewHolder holder, int position) {
+    public void onBindViewHolder(itemCardViewHolder holder, final int position) {
        // holder.item_cardview.setCardBackgroundColor(mContext.getResources().getColor(beans.get(position).getColor()));
         holder.item_tv.setText(beans.get(position).getText());
         holder.item_imageView.setImageResource(beans.get(position).getBitmap());
+        holder.item_imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onItemClickListener != null){
+                    onItemClickListener.OnItemClick(v,position);
+                }
+            }
+        });
     }
     @Override   //返回item的数目
     public int getItemCount() {

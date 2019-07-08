@@ -9,8 +9,8 @@ public class Device implements Serializable{//设备的基本信息
     private int suid; //设备唯一id
     private String devicename;
     private String dPiturePath;
-    private Bitmap dPiture;
-    private boolean isRunning;
+    private int Piture;
+    private int status;//0 停止 1运行 2暂停
     private String wssid;//设备ssid
     public int getDeviceid() {
         return deviceid;
@@ -35,19 +35,11 @@ public class Device implements Serializable{//设备的基本信息
         this.dPiturePath = devicepiture == null ? null : devicepiture.trim();
     }
 
-    public Bitmap getdPiture() {
-        return dPiture;
+    public int getPiture() {
+        return Piture;
     }
-    public void setdPiture(Bitmap dPiture) {
-        this.dPiture = dPiture;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void setRunning(boolean running) {
-        isRunning = running;
+    public void setdPiture(int dPiture) {
+        this.Piture = dPiture;
     }
 
     public String getWssid() {
@@ -66,5 +58,13 @@ public class Device implements Serializable{//设备的基本信息
     }
     public int getSubId(){
         return suid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

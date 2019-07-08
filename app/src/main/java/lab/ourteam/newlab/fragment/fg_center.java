@@ -30,6 +30,9 @@ import lab.ourteam.newlab.Bean.listviewBean;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.activity.login_Activity;
+import lab.ourteam.newlab.activity.myDevices;
+import lab.ourteam.newlab.activity.myHistory;
+import lab.ourteam.newlab.activity.userDevices;
 import lab.ourteam.newlab.event.MessageEvent;
 import lab.ourteam.newlab.activity.user_info_activity;
 
@@ -85,11 +88,15 @@ public class fg_center extends Fragment {
       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent,View view,int position,long id){
             switch(position){
-                case 0://历史记录
+                case 0://历史记
+                    startActivity(new Intent(getContext(), myHistory.class));
                     break;
                 case 1://我的设备
+                   Intent intent=new Intent(getContext(), myDevices.class);
+                   startActivity(intent);
                     break;
                 case 2://我的视频
+
                     break;
             }
           }

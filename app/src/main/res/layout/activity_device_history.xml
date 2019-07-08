@@ -2,18 +2,18 @@
 <!--中间布局-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/setting"
+    android:id="@+id/activity_device_history"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/setting_title_bar"
+        android:id="@+id/activity_device_history_title_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="#0cbfe8">
 
         <ImageView
-            android:id="@+id/setting_return_menu"
+            android:id="@+id/about_return_menu"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="12dp"
@@ -24,14 +24,24 @@
             android:layout_height="48dp"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="设置"
+            android:text="设备历史记录"
             />
+
+
     </RelativeLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_device_history_title_bar"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="暂无记录"
+             android:textSize="30sp"/>
+
 
     </LinearLayout>
 </RelativeLayout>
-
-

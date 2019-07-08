@@ -1,11 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.mob.sdk'
-
 // 在MobSDK的扩展中注册SMSSDK的相关信息
 MobSDK {
     appKey "27e4c76d8c100"
     appSecret "d120586325efed2fd3d2455e9a0038a2"
-
     SMSSDK {}
 }
 android {
@@ -50,8 +48,9 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.haibin:calendarview:3.2.9'
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-    implementation 'com.alibaba:fastjson:1.2.57'
+    implementation 'com.alibaba:fastjson:1.1.71.android'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation group: 'com.android.support', name: 'preference-v7', version: '28.0.0'
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     // optional - RxJava support for Room

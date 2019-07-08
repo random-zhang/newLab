@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +19,12 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
     private LayoutInflater mInflater;
     private Context mContext;
     private OnItemClickListener onItemClickListener;
+    private RecyclerView recyclerView;
     public listAdapter(Context context){
         this.mContext=context;
         //beans= CardDataUtils.getCardViewDatas();
         mInflater=LayoutInflater.from(context);
+        beans=new ArrayList<>();
     }
     public void addNewItem(String text) {//添加新项
         if(beans == null) {
@@ -33,7 +36,20 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
         ////更新数据集不是用adapter.notifyDataSetChanged()而是notifyItemInserted(position)与notifyItemRemoved(position) 否则没有动画效果。
         notifyItemInserted(0);
     }
-     public void deleteItem() {
+    // 当它连接到一个RecyclerView调用的方法
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
+    // 当它与RecyclerView解除连接调用的方法
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        this.recyclerView = null;
+    }
+
+    public void deleteItem() {
         if(beans == null || beans.isEmpty()) {
             return;
         }
@@ -41,17 +57,18 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
         notifyItemRemoved(0);
     }
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
-        private CardView baseListView;
+        private LinearLayout baseListView;
         private TextView baseListView_tv;
         public ItemViewHolder(View itemView) {
             super(itemView);
-            baseListView=(CardView)itemView.findViewById(R.id.baseListView);
+            baseListView=itemView.findViewById(R.id.baseListView);
             baseListView_tv=(TextView)itemView.findViewById(R.id.baseListView_tv);
         }
     }
 
     @Override
     public int getItemCount() {
+
         return beans.size();
     }
     @Override
@@ -62,17 +79,19 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         final int Position=position;
-        holder.baseListView.setCardBackgroundColor(mContext.getResources().getColor(R.color.DodgerBlue));
+        //holder.baseListView.setCardBackgroundColor(mContext.getResources().getColor(R.color.DodgerBlue));
         // holder.item_cardview.setCardBackgroundColor(beans.get(position).getColor());
         holder.baseListView_tv.setText(beans.get(position).getText());
         holder.baseListView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int position = recyclerView.getChildAdapterPosition(v);
                 if(onItemClickListener != null){
-                    onItemClickListener.OnItemClick(v,Position);
+                    onItemClickListener.OnItemClick(v,position);
                 }
             }
         });
+
     }
     /**
      * 适配器的点击事件接口

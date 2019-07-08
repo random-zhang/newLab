@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="axisX">
+        <item>智能选择</item>
+        <item>1分钟</item>
+        <item>2分钟</item>
+        <item>5分钟</item>
+        <item>10分钟</item>
+        <item>15分钟</item>
+    </string-array>
+    <string-array name="axisX_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="axisY">
+        <item>智能选择</item>
+        <item>1摄氏度</item>
+        <item>2摄氏度</item>
+        <item>5摄氏度</item>
+        <item>10摄氏度</item>
+    </string-array>
+    <string-array name="axisY_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+</resources>

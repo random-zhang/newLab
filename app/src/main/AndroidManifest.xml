@@ -10,12 +10,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".myApplication"
@@ -25,11 +24,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.deviceHistory"></activity>
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -44,7 +45,7 @@
         <activity android:name=".activity.register_Activity" />
         <activity android:name=".activity.finish_register" />
         <activity android:name=".activity.user_info_activity" />
-        <activity xmlns:tools="http://schemas.android.com/tools"
+        <activity
             android:name=".activity.qrcode_activity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
@@ -62,7 +63,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-            >
         </provider>
 
         <activity android:name=".activity.historyRecord_activity" />
@@ -73,6 +73,9 @@
         <activity android:name=".activity.surroundDevices" />
         <activity android:name=".activity.myDevices" />
         <activity android:name=".activity.deviceCodeActivity" />
+        <activity android:name=".activity.userDevices" />
+        <activity android:name=".activity.myHistory" />
+        <activity android:name=".activity.baseListActivity" />
     </application>
 
 </manifest>

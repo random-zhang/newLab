@@ -30,16 +30,21 @@
                 android:id="@+id/main_title"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="设备列表"
+                android:text="新实验室"
                 />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/add_device"
-                android:layout_alignParentEnd="true"
+
+            <LinearLayout
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="14dp"
-                android:background="@mipmap/add" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp">
+                <ImageView
+                    android:id="@+id/add_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/add"/>
+            </LinearLayout>
         </RelativeLayout>
         <!--除标题栏-->
         <android.support.v4.view.ViewPager
@@ -61,7 +66,6 @@
             app:itemIconTint="@drawable/bottom_navigation_selector"
             app:menu="@menu/menu"
             />
-
 
     </RelativeLayout>
 

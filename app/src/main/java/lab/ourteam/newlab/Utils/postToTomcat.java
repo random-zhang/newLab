@@ -13,18 +13,21 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import lab.ourteam.newlab.Bean.Bath;
 import lab.ourteam.newlab.Bean.Device;
 import lab.ourteam.newlab.Bean.User;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
 public class postToTomcat {
+   // public static final String USERSERVICEURI = "http://192.168.43.161:8080/lab_war_exploded/";
     public static final String USERSERVICEURI = "http://192.168.43.161:8080/lab_war_exploded/";
     private static final String BOUNDARY = UUID.randomUUID().toString();
     public static Response uploadFile(String url,File file) throws IOException {
@@ -44,6 +47,46 @@ public class postToTomcat {
                 .post(RequestBody.create(getMediaType(".json"), json))
                 .build();
         return okHttpClient.newCall(request).execute();
+    }
+    public static void  postByJson(String url,final String json) {
+         final String Url=USERSERVICEURI+url;
+        new Thread(){
+            @Override
+            public void run()  {
+                super.run();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(Url)
+                        .post(RequestBody.create(getMediaType(".json"), json))
+                        .build();
+                try {
+                    Response response=okHttpClient.newCall(request).execute();
+                    JSONObject userJson;
+                    userJson = new JSONObject(response.body().toString());
+                    int status = userJson.getInt("status");
+                    if(status==0){//更新失败跑出异常
+                        throw new Exception();
+                    }
+                } catch (JSONException e) {
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+    public static String postFormData(String url, FormBody.Builder builder) throws IOException {
+        FormBody formBody=builder.build();
+        url=USERSERVICEURI+url;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+        Response response=okHttpClient.newCall(request).execute();
+        return response.body().string();
     }
     private static MediaType getMediaType(String fileSuffix){
         MediaType mediaType=null;
@@ -70,7 +113,7 @@ public class postToTomcat {
           return  null;
     }
     public static File getUserFile(int userId,String fileName,String httpUrl,Context context) throws IOException {//用户要取xxx文件
-        String relativeUrl=USERSERVICEURI+"file/"+httpUrl+"userId="+userId+","+"fileName";//服务器只需要知道用户名和文件名
+        String relativeUrl=USERSERVICEURI+"file/"+httpUrl+"userId="+userId+","+"fileName="+fileName;//服务器只需要知道用户名和文件名
         Response response=null;
         try {
             response=getResponse(relativeUrl);
@@ -87,7 +130,7 @@ public class postToTomcat {
     }
     public static Bitmap getUserPicture(int userId,String fileName,Context context) throws IOException {//获取用户拥有的图片,重要文件存在私有目录下
         //拼接url
-       String httpUrl="downloadUserImage.do/";//请求的地址
+       String httpUrl="downloadUserImage";//请求的地址
        File file=getUserFile(userId,fileName,httpUrl,context);
         Bitmap bitmap = null;
         try
@@ -99,10 +142,8 @@ public class postToTomcat {
         }
         return  bitmap;
     }
-    public static Bitmap getUserPortrait(Context context) throws IOException{//获取服务器保存的用户头像,
-         User user=saveToLocation.getUserInfo(context);//,用户头像名称统一/用户id/images/portrait.png
-         if (user==null) return  null;
-         int userId=user.getUserid();
+    public static Bitmap getUserPortrait(Context context,int userId) throws IOException{//获取服务器保存的用户头像,
+          //现获取
          return getUserPicture(userId,"userPortrait.png",context);//保存用户头像
     }
     public Device getDevice(int deviceId){
@@ -122,5 +163,4 @@ public class postToTomcat {
             return null;
         return  (Bath)json.get("bath");
     }
-
     }

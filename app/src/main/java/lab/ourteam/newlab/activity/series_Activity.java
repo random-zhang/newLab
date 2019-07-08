@@ -2,26 +2,30 @@ package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lab.ourteam.newlab.service.MQTTService;
+import lab.ourteam.newlab.Bean.Coordinates;
+import lab.ourteam.newlab.Utils.postToTomcat;
 import lab.ourteam.newlab.R;
-import lab.ourteam.newlab.pointValueMessage;
-import lab.ourteam.newlab.selector.class_selector;
+import lecho.lib.hellocharts.formatter.LineChartValueFormatter;
+import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -30,6 +34,7 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
+import okhttp3.FormBody;
 
 public class series_Activity extends Activity {
     private ImageView returnMenu;
@@ -41,252 +46,219 @@ public class series_Activity extends Activity {
     private boolean hasAxesNames = true;
     private Axis axisX;
     private Axis axisY;
-    private double cv;
-    private int cur_time;
-    private int first_start_time;
-    private int k=10;
-    private int j=0;
-    private EventBus eventBus;
-    private int cur_sv;
-    private TextView series_sv_text;
-    private ImageView series_sv_minus;
-    private ImageView series_sv_plus;
-    private TextView series_time_text;//剩余加热时间
-    private ImageView series_time_minus;
-    private ImageView series_time_plus;
-    private int surplus_time;
-    private int already_time=0;
+    private float sv;
+    private float st;
+    private int subId;
     private Intent intent;
-    private boolean isAppoint=true;
-    private LinearLayout series_sv_team;
-    private LinearLayout series_time_team;
+    private initUITask task;
+    private int intervalX;//x轴间隔时间
+    private int intervalY;//y轴间隔时间
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.series_activity);
         initId();
+        try{
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this) ;
+            intervalX=Integer.parseInt(prefs.getString("axisX_setting","0"));
+            intervalY=Integer.parseInt(prefs.getString("axisY_setting","0"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         intent = this.getIntent();
-        cur_sv=intent.getIntExtra("SV",0);//获取当前设定的温度
-        cur_time=intent.getIntExtra("set_time",0);
-        isAppoint=intent.getBooleanExtra("isAppoint",true);
-        /**
-         * 此时隐藏按钮
-         */
-        if(isAppoint){
-            series_sv_team.setVisibility(View.INVISIBLE);
-            series_time_team.setVisibility(View.INVISIBLE);
-        }else{
-            series_sv_team.setVisibility(View.VISIBLE);
-            series_time_team.setVisibility(View.VISIBLE);
-        }
-        String str1=String.format("%d",cur_sv);
-        series_sv_text.setText(str1);
-
-        String str2=String.format("%d",cur_time);
-        series_time_text.setText(str2);
-        returnMenu.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) { finish(); }});
+        subId=intent.getIntExtra("subId",0);
+        initUI();
         initListener();
-        //注册EventBus
-        eventBus = EventBus.getDefault();
-        if (!eventBus.isRegistered(this)) {
-            eventBus.register(this);
-        }
-        lineList = new ArrayList<Line>();
-        Line line = new Line(pointValues);
-        line.setCubic(true);
-        line.setHasLabels(true);//曲线的数据坐标是否加上备注
-        line.setColor(getResources().getColor(R.color.colorAccent));
-        line.setShape(ValueShape.CIRCLE);
-        lineList.add(line);
-
-        chartData=new LineChartData(lineList);
-        List<AxisValue> axisValueX=new ArrayList<>();
-        List<AxisValue> axisValueY=new ArrayList<>();
-        for(int i=0;i<=100;i++){
-            axisValueX.add(new AxisValue(i).setValue(i));
-            axisValueY.add(new AxisValue(i).setValue(i));
-        }
-        Axis axisX = new Axis();
-        Axis axisY = new Axis();//.setHasLines(true);
-        axisX.setValues(axisValueX);
-        axisY.setValues(axisValueY);
-        axisX.setName("时间");
-        axisY.setName("温度");
-        chartData.setAxisYLeft(axisY);
-        chartData.setAxisXBottom(axisX);
-        Viewport port = initViewPort(0, 10);
-        Viewport maxport = initViewPort(0, 100);
-        lineChartView.setLineChartData(chartData);
-        lineChartView.setMaximumViewport(maxport);
-        lineChartView.setCurrentViewport(port);
-
     }
-    private Viewport initViewPort(float left, float right) {
+    public void initUI(){
+       // task=new initUITask(initUITask.INIT_UI);
+        if(subId==0){
+            finish();//打开页面失败
+            Toast.makeText(this,"打开页面失败",Toast.LENGTH_SHORT).show();
+        }
+        //task.execute(subId);
+        /*
+         模拟数据
+         */
+        sv=100;st=100;
+        Toast.makeText(getApplicationContext(),"模拟数据",Toast.LENGTH_SHORT).show();
+        pointValues=new ArrayList<>();
+        for(int i=0;i<100;i++){
+            pointValues.add(new PointValue(i,(float)Math.random()*i));
+        }
+            fillChart((float)10.1,10);
+    }
+    private Viewport initViewPort(float left, float right,float top) {
         Viewport port = new Viewport();
-        port.top = 100;//Y轴上限，固定(不固定上下限的话，Y轴坐标值可自适应变化)
+        port.top =top;//Y轴上限，固定(不固定上下限的话，Y轴坐标值可自适应变化)
         port.bottom = 0;//Y轴下限，固定
         port.left = left;//X轴左边界，变化
         port.right = right;//X轴右边界，变化
         return port;
     }
-    @Subscribe(threadMode=ThreadMode.MAIN)
-    public void getpointValueMessage(pointValueMessage pointvalueMessage) {
-        List<PointValue> pointValues = pointvalueMessage.getPointValueList();
-       // already_time=(int)pointValues.get(pointValues.size()-1).getX();//已经历时间
-        //urplus_time=intent.getIntExtra("set_time",0)-already_time;//获取剩余时间
-        //String str2=String.format("%d",surplus_time);
-        //series_time_text.setText(str2);
-        boolean isDraw=pointvalueMessage.getIsDraw();
-        if(isDraw){
-            Toast.makeText(this,"接收到isDraw"+isDraw,Toast.LENGTH_SHORT).show();
-        }
-        j=pointvalueMessage.getJ();
-        k=pointvalueMessage.getK();
-        lineList = new ArrayList<Line>();
-        Line line = new Line(pointValues);
-        line.setCubic(true);
-        line.setHasLabels(true);//曲线的数据坐标是否加上备注
-        line.setColor(getResources().getColor(R.color.colorAccent));
-        line.setShape(ValueShape.CIRCLE);
-        lineList.add(line);
-        chartData = new LineChartData(lineList);
-        List<AxisValue> axisValueX=new ArrayList<>();
-        List<AxisValue> axisValueY=new ArrayList<>();
-        for(int i=0;i<100;i++){
-            axisValueX.add(new AxisValue(i).setValue(i));
-            axisValueY.add(new AxisValue(i).setValue(i));
-        }
-        Axis axisX = new Axis();
-        Axis axisY = new Axis().setHasLines(true);
-        axisX.setValues(axisValueX);
-        axisY.setValues(axisValueY);
-        axisX.setName("时间");
-        axisY.setName("温度");
-        chartData.setAxisYLeft(axisY);
-        chartData.setAxisXBottom(axisX);
-        Viewport port = initViewPort(j, k);
-        Viewport maxport = initViewPort(0, 100);
-        lineChartView.setLineChartData(chartData);
-        lineChartView.setMaximumViewport(maxport);
-        lineChartView.setCurrentViewport(port);
-    }
-    /*@Subscribe(threadMode = ThreadMode.ASYNC)
-    void onBridge(List<PointValue> pointvalues){
-        Toast.makeText(this,"接收到service的消息",Toast.LENGTH_SHORT).show();
-        pointValues=pointvalues;
-        lineList = new ArrayList<Line>();
-        Line line = new Line(pointValues);
-        line.setCubic(true);
-        line.setHasLabels(true);//曲线的数据坐标是否加上备注
-        line.setColor(getResources().getColor(R.color.colorAccent));
-        line.setShape(ValueShape.CIRCLE);
-        lineList.add(line);
-
-        chartData=new LineChartData(lineList);
-        List<AxisValue> axisValueX=new ArrayList<>();
-        List<AxisValue> axisValueY=new ArrayList<>();
-        for(int i=0;i<=100;i++){
-            axisValueX.add(new AxisValue(i).setValue(i));
-            axisValueY.add(new AxisValue(i).setValue(i));
-        }
-        Axis axisX = new Axis();
-        Axis axisY = new Axis().setHasLines(true);
-        axisX.setValues(axisValueX);
-        axisY.setValues(axisValueY);
-        axisX.setName("时间");
-        axisY.setName("温度");
-        chartData.setAxisYLeft(axisY);
-        chartData.setAxisXBottom(axisX);
-        Viewport port = initViewPort(0, 10);
-        Viewport maxport = initViewPort(0, 100);
-        lineChartView.setLineChartData(chartData);
-        lineChartView.setMaximumViewport(maxport);
-        lineChartView.setCurrentViewport(port);
-
-    }
-    @Override
-    //解除注册
-    protected void onDestroy(){
-        super.onDestroy();
-        if(eventBus.isRegistered(this)){
-            eventBus.unregister(this);
-        }
-    }
-*/
     private void initId(){//分配ID
         lineChartView=(LineChartView)findViewById(R.id.lineChartView);
         returnMenu=(ImageView)findViewById(R.id.series_return_menu);
-        series_sv_text=(TextView)findViewById(R.id.series_sv_text);
-        series_time_text=(TextView)findViewById(R.id.series_time_text);
-        series_sv_minus=(ImageView)findViewById(R.id.series_sv_minus);
-        series_sv_plus=(ImageView)findViewById(R.id.series_sv_plus);
-        series_time_minus=(ImageView)findViewById(R.id.series_time_minus);
-        series_time_plus=(ImageView)findViewById(R.id.series_time_plus);
-        series_time_team=(LinearLayout)findViewById(R.id.series_time_team);
-        series_sv_team=(LinearLayout)findViewById(R.id.series_sv_team);
     }
     private void initListener(){//监听
-
-        View.OnClickListener listener=new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0){
-                String str=series_sv_text.getText().toString();
-                String Str=series_time_text.getText().toString();
-                int Sv=Integer.parseInt(str);
-                int Time=Integer.parseInt(Str);
-             switch (arg0.getId())
-             {
-
-                 case R.id.series_sv_minus:{
-                     if(Sv>0) Sv-=1;
-
-                     String str1=String.format("%d",Sv);
-                     series_sv_text.setText(str1);
-                     break;
-                 }
-                 case R.id.series_sv_plus:{
-                     if(Sv<100) Sv+=1;
-                     String str1=String.format("%d",Sv);
-                     series_sv_text.setText(str1);
-                     break;
-                 }
-                 case R.id.series_time_minus:{
-                     if(Time>0) Time-=1;
-                     String str2=String.format("%d",Time);
-                     series_time_text.setText(str2);
-                     break;
-                 }
-                 case R.id.series_time_plus:{
-                     if(Time<100) Time+=1;
-                     String str2=String.format("%d",Time);
-                     series_time_text.setText(str2);
-                     break;
-                 }
-             }
-             Intent i=new Intent(series_Activity.this,MQTTService.class);
-             i.putExtra("class_selector", class_selector.series_Activity);
-             Toast.makeText(series_Activity.this,"sv"+Sv,Toast.LENGTH_SHORT).show();
-             i.putExtra("series_time",Time);
-             i.putExtra("isdraw",true);
-             i.putExtra("isSeries_sv",true);
-             i.putExtra("series_sv",Sv);
-             startService(i);
-                JSONObject sub_obj=new JSONObject();
-                JSONObject obj=new JSONObject();
-                try{
-                    sub_obj.put("SV",Sv);
-                    sub_obj.put("setTime",Time);
-                    sub_obj.put("appointment",0);
-                    obj.put("work_process",sub_obj);
-                }catch(JSONException e){
+        returnMenu.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) { finish(); }});
+    }
+    public Coordinates getCoordinates(int subId) throws IOException {//数据库操作
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("subId", subId + "");
+        String response = postToTomcat.postFormData("deviceController/getCoordinates.json", builder);
+        Log.v("调试", response);
+        Coordinates coordinates = null;
+        if (response == null)
+            return null;
+        else {
+        }
+           /* JSONArray detail=JSONObject.parseArray(response);
+            for (int i=0; i<detail.size();i++){
+                if(detail.get(i)!=null||!detail.get(i).equals("")){
+                    JSONArray detailChild =detail.getJSONArray(i);
+                    detail.get
+                }*/
+            JSONObject jsonObject=JSON.parseObject(response);
+            double sv=jsonObject.getDouble("sv");
+            double st=jsonObject.getDouble("st");
+            JSONArray jsonArray=jsonObject.getJSONArray("coordinates");
+            coordinates=new Coordinates();
+            coordinates.setSt(st);
+            coordinates.setSv(sv);
+            coordinates.setCoordinates(jsonArray.toJavaList(Coordinates.Point.class));
+            //coordinates = new Coordinates(st,sv,jsonArray.toString());
+            //coordinates=JSON.parseObject(response,Coordinates.class);
+          //  Log.v("调试", jsonArray+"");
+            return coordinates;
+        }
+    public Coordinates.Point getCoordinate(int subId) throws IOException {//数据库操作
+        FormBody.Builder builder=new FormBody.Builder();
+        builder.add("subId",subId+"");
+        String response=postToTomcat.postFormData("deviceController/getCoordinate.json",builder);
+        return (response==null)?null: JSON.parseObject(response, Coordinates.Point.class);
+    }
+    public class initUITask extends AsyncTask<Integer,Float,Coordinates>{
+        private int tag;
+        public static final int INIT_UI=0,UPDATE_UI=1;
+        initUITask(int tag) {//tag=0  初始化UI,tag=1 更新UI
+            this.tag=tag;
+        }
+        @Override
+        protected void onPreExecute() {//执行后台耗时操作前被调用,通常用于进行初始化操作.
+            super.onPreExecute();
+        }
+        @Override
+        protected Coordinates doInBackground(Integer... integers) {
+            int subId=integers[0];
+            //从服务器获取数据
+            Coordinates coordinates=null;
+            Coordinates.Point point=null;
+            if(tag==INIT_UI){
+                try {
+                    coordinates=getCoordinates(subId);
+                    Log.v("调试",coordinates.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
                 }
-                String pubString=obj.toString();
-                MQTTService.publish(pubString);
+            }else if(tag==UPDATE_UI) {//每隔一段时间更新一次
+                while(true){
+                    try {
+                        Thread.sleep(10000);
+                        point=getCoordinate(subId);
+                        publishProgress((float)point.getCt(),(float)point.getCv());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
             }
-        };
-        series_sv_minus.setOnClickListener(listener);
-        series_sv_plus.setOnClickListener(listener);
-        series_time_minus.setOnClickListener(listener);
-        series_time_plus.setOnClickListener(listener);
+            return coordinates;
+        }
+        @Override
+        protected void onProgressUpdate(Float... values) {//
+              fillChartByCoordinate(values[0],values[1]);
+        }
+        @Override
+        protected void onPostExecute(Coordinates coordinates) {//当doInBackground方法完成后,系统将自动调用此方法,
+            Log.i("调试","运行到此步1");
+            fillChartByCoordinates(coordinates);
+            Toast.makeText(series_Activity.this,"坐标"+coordinates.toString(),Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void fillChartByCoordinates(Coordinates coordinates){//填充图表,更新UI
+        sv=(float)coordinates.getSv();
+        st=(float)coordinates.getSt();
+        Coordinates.Point cPoint=coordinates.getCurrentPoint();
+        LineChartValueFormatter chartValueFormatter = new SimpleLineChartValueFormatter(2);
+        List<Coordinates.Point> points=coordinates.getCoordinates();
+        pointValues=new ArrayList<>();
+        for(Coordinates.Point point:points){
+            pointValues.add(new PointValue((float)point.getCt(),(float)point.getCv()));
+        }
+        if(cPoint!=null)
+           fillChart((float)cPoint.getCt(),(float)cPoint.getCv());
+    }
+    public void fillChartByCoordinate(float ct,float cv) {//填充图表,更新UI
+        pointValues.add(new PointValue(ct,cv));
+        fillChart(ct,cv);
+    }
+    public void fillChart(float ct,float cv){
+        Log.i("调试","运行到此步3");
+        LineChartValueFormatter chartValueFormatter = new SimpleLineChartValueFormatter(2);
+        Log.i("调试",pointValues.toString());
+        Line line = new Line(pointValues);
+        line.setCubic(true);
+        line.setHasLabels(true);//曲线的数据坐标是否加上备注
+        line.setColor(getResources().getColor(R.color.colorAccent));
+        line.setShape(ValueShape.CIRCLE);
+        line.setFormatter(chartValueFormatter);
+        lineList=new ArrayList<>();
+        lineList.add(line);
+        chartData=new LineChartData(lineList);
+        //坐标系的刻画
+        List<AxisValue> axisValueX=new ArrayList<>();
+        List<AxisValue> axisValueY=new ArrayList<>();
+        int intervalx=intervalX;
+        int intervaly=intervalY;
+        if(intervalX==0){//智能配置模式
+            intervalx=(int)(st/10);
+        }
+        if (intervalY==0){//
+            intervaly=(int)(sv/10);
+        }
+        for(int i=0;i<=sv/intervaly;i++){
+            axisValueY.add(new AxisValue(i).setValue(i*intervaly));
+        }
+        for(int i=0;i<=st/intervalx;i++){
+            axisValueX.add(new AxisValue(i).setValue(i*intervalx));
+        }
+        Axis axisX = new Axis();
+        Axis axisY = new Axis();//.setHasLines(true);
+        axisX.setValues(axisValueX);
+        axisY.setValues(axisValueY);
+        axisX.setName("时间/min");
+        axisY.setName("温度/C");
+        chartData.setAxisYLeft(axisY);
+        chartData.setAxisXBottom(axisX);
+        Viewport port ;
+        if(cv==0&&ct==0){//还没开始打点
+            port=initViewPort(0, 20,sv);
+        }else{
+            if(ct>10)
+                port=initViewPort(ct-10, ct+10,sv);
+            else
+                port=initViewPort(0, 20-ct,sv);
+        }
+        Viewport maxport = initViewPort(0, st,sv);
+        lineChartView.setLineChartData(chartData);
+        lineChartView.setMaximumViewport(maxport);
+        lineChartView.setCurrentViewport(port);//动态处理此行
+        lineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+        lineChartView.setZoomEnabled(true);
+        lineChartView.setVisibility(View.VISIBLE);
     }
 }

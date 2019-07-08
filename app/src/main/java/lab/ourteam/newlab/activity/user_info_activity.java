@@ -38,7 +38,6 @@ import lab.ourteam.newlab.Utils.saveToLocation;
 import lab.ourteam.newlab.event.MessageEvent;
 import lab.ourteam.newlab.fragment.fg_center;
 
-
 public class user_info_activity extends Activity {
     private ImageView user_info_portrait;
     private TextView user_info_nackName;

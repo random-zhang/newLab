@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="主要设置">
+        <CheckBoxPreference android:title="开启声音" android:key="open_sound" android:summary="当有新消息通知时播放声音提示" android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="曲线图设置">
+        <!--单选-->
+        <ListPreference
+            android:key="axisX_setting"
+            android:title="X轴间距"
+            android:dialogTitle=""
+            android:entries="@array/axisX"
+            android:entryValues="@array/axisX_values">
+        </ListPreference>
+        <ListPreference
+            android:key="axisY_setting"
+            android:title="Y轴间距"
+            android:dialogTitle="选择类别"
+            android:entries="@array/axisY"
+            android:entryValues="@array/axisY_values">
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="其它设置">
+
+    </PreferenceCategory>
+</PreferenceScreen>

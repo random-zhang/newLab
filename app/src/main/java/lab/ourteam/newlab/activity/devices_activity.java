@@ -23,6 +23,7 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.Serializable;
 
 import lab.ourteam.newlab.Adapter.dCardAdapter;
+import lab.ourteam.newlab.Adapter.deviceListViewAdapter;
 import lab.ourteam.newlab.Bean.Bath;
 import lab.ourteam.newlab.Bean.CardViewBean;
 import lab.ourteam.newlab.Bean.Device;
@@ -36,7 +37,7 @@ import static lab.ourteam.newlab.Constant.wifiConfig_activity_result_code;
 import static lab.ourteam.newlab.WifiAutoConnectManager.WifiCipherType.*;
 
 public class devices_activity extends Activity implements Iactivity{
-    private ImageView returnMenu,addDevices;
+    private ImageView returnMenu,addDevices,search;
     private WifiAutoConnectManager wifiAdmin;
     private View wifiConfiView;
     private Dialog wifiConfiDialog;
@@ -51,12 +52,11 @@ public class devices_activity extends Activity implements Iactivity{
         wifiAdmin=new WifiAutoConnectManager(this);
         addDevices.setOnClickListener(this);
         returnMenu.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) { finish(); }});
-        DragFloatActionButton dragFloatActionButton= (DragFloatActionButton) findViewById(R.id.floatBtn);
-        dragFloatActionButton.setOnClickListener(this);
     }
-
     @Override
     public void initID() {
+        search=findViewById(R.id.devices_activity_serach);
+        search.setOnClickListener(this);
         addDevices=findViewById(R.id.addDevices);
         returnMenu=findViewById(R.id.devices_activity_return_menu);
         devicesActivityRecyclerView=findViewById(R.id.devices_activity_recyclerView);
@@ -66,6 +66,21 @@ public class devices_activity extends Activity implements Iactivity{
         dCardAdapter adapter=new dCardAdapter(this);//设置适配的卡片
         devicesActivityRecyclerView.setAdapter(adapter);
         sDevices=findViewById(R.id.devices_activity_surroundDevices);
+        adapter.setOnItemClickListener(new  dCardAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View v, int position) {
+                Intent intent=new Intent();
+                Bath bath=new Bath();
+                bath.setStatus(0);
+                bath.setDeviceid(00001);
+                bath.setSuid(10001);
+                bath.setDevicename("水浴锅1");
+                bath.setdPiture(R.mipmap.bain_marle);
+                intent.putExtra("device",bath);
+                setResult(devices_activity_result_code,intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -75,30 +90,12 @@ public class devices_activity extends Activity implements Iactivity{
                 new IntentIntegrator(this).setCaptureActivity(qrcode_activity.class).initiateScan();
                 break;
             }
-            case R.id.floatBtn: {//浮动框
-                PopupMenu popupMenu = new PopupMenu(this, v);
-                getMenuInflater().inflate(R.menu.pop_item, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.action_last:
-                                Toast.makeText(devices_activity.this, "" + menuItem.getItemId(), Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.action_next:
-                                Toast.makeText(devices_activity.this, "" + menuItem.getItemId(), Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-                Log.e("****--->", "float");
-                // Toast.makeText(this,"flaot---",Toast.LENGTH_SHORT).show();
-                break;
-            }
+
             case R.id.devices_activity_surroundDevices:{//打开gps，搜索周围存在的设备
 
+            }
+            case R.id.devices_activity_serach:{
+                Toast.makeText(getApplicationContext(),"搜索不到",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -139,9 +136,9 @@ public class devices_activity extends Activity implements Iactivity{
                     String netWorkNameTemp = strResult.substring(strResult.indexOf("S:"));
                     final String netWorkName = netWorkNameTemp.substring(2,netWorkNameTemp.indexOf(";"));
                     String deviceMACTemp = strResult.substring(strResult.indexOf("MAC:"));
-                    final int  deviceMAC = Integer.parseInt(deviceMACTemp.substring(2,deviceMACTemp.indexOf(";")));
+                    final int  deviceMAC = Integer.parseInt(deviceMACTemp.substring(4,deviceMACTemp.indexOf(";")));
                     String deviceIdTemp = strResult.substring(strResult.indexOf("deviceId:"));
-                    final int deviceId = Integer.parseInt(deviceIdTemp.substring(2,deviceIdTemp.indexOf(";")));
+                    final int deviceId = Integer.parseInt(deviceIdTemp.substring(9,deviceIdTemp.indexOf(";")));
                     Dialog alertDialog = new AlertDialog.Builder(this)
                             .setTitle("扫描到可用wifi")
                             .setIcon(R.mipmap.wifi)
@@ -169,7 +166,7 @@ public class devices_activity extends Activity implements Iactivity{
                                     device.setWssid(netWorkName);
                                     device.setSuid(deviceMAC);
                                     device.setDevicename(deviceName);
-                                    device.setRunning(false);
+                                    device.setStatus(0);
                                              Intent intent=new Intent(devices_activity.this,wifiConfigActivity.class);
                                              startActivityForResult(intent, Constant.devices_activity_request_code);
                                 }

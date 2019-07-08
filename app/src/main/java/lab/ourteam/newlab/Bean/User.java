@@ -54,7 +54,7 @@ public class User implements Serializable{
         return userportrait;
     }
 
-    public void setUserportrait(Context context) throws IOException{
-           this.userportrait=postToTomcat.getUserPortrait(context);
+    public void setUserportrait(Context context,int userId) throws IOException{
+           this.userportrait=postToTomcat.getUserPortrait(context,userId);
     }
 }

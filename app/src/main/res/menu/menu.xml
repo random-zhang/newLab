@@ -4,9 +4,6 @@
     <item android:id="@+id/menu_contrl"
         android:icon="@mipmap/menu_contrl"
         android:title="控制台"/>
-    <item android:id="@+id/menu_people"
-        android:icon="@mipmap/menu_people"
-        android:title="圈子"/>
     <item android:id="@+id/menu_news"
         android:icon="@mipmap/menu_news"
         android:title="消息"/>

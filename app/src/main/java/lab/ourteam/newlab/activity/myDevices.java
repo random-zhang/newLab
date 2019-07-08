@@ -48,6 +48,7 @@ public class myDevices extends Activity implements  Iactivity{//我的设备
             @Override
             public void OnItemClick(View v, int position) {//每一个item对应的点击事件
                 switch (position){
+
                     case 0:{
                         Intent intent=new Intent(myDevices.this,createManageActivity().getClass());
                         startActivity(intent);
@@ -76,11 +77,7 @@ public class myDevices extends Activity implements  Iactivity{//我的设备
 
             }
 
-            @Override
-            public RecyclerView.Adapter bindAdapter() {
 
-                return null;
-            }
         });
         return activity;
     }
@@ -97,11 +94,6 @@ public class myDevices extends Activity implements  Iactivity{//我的设备
 
             }
 
-            @Override
-            public RecyclerView.Adapter bindAdapter() {
-
-                return null;
-            }
         });
         return activity;
     }

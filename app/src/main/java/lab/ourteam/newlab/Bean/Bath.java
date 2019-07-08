@@ -1,7 +1,5 @@
 package lab.ourteam.newlab.Bean;
 
-import java.io.Serializable;
-
 public class Bath extends Device  {
 
 

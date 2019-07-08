@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,12 +22,13 @@ public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
     private  WebView webView;
     private ImageView returnMenu;
     private TextView finish;
+    private Button refresh_web;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_config);
         initID();
-        webView.loadUrl("https://192.168.4.1");//连上设备wifi后打开设备wifi配置页面
+        webView.loadUrl("http://192.168.4.1");//连上设备wifi后打开设备wifi配置页面
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -41,6 +43,7 @@ public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
         finish=findViewById(R.id.wifiConfig_activity_finish);
         returnMenu.setOnClickListener(this);
         finish.setOnClickListener(this);
+        refresh_web=findViewById(R.id.refresh_web);
     }
 
     @Override
@@ -58,6 +61,10 @@ public class wifiConfigActivity extends AppCompatActivity implements Iactivity {
                //intent.putExtra("deviceMAC",getIntent().getStringExtra("deviceMAC"));
                setResult(wifiConfig_activity_result_code,intent);
                finish();
+               break;
+           }
+           case R.id.refresh_web:{
+               webView.reload(); //刷新页面
                break;
            }
        }

@@ -25,7 +25,6 @@ public class fg_news extends Fragment {
         view=inflater.inflate(R.layout.fg_news,container,false);
         initID();
         List<listviewBean> mList = new ArrayList<>();
-        mList.add(new listviewBean(R.mipmap.groupchat,"通知",1));
         myAdapter adapter = new myAdapter(getContext(), mList,R.layout.friends_item);
         fg_news_function_list.setAdapter(adapter);//通讯录界面功能ListView
         createContactLists();

@@ -28,16 +28,19 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import lab.ourteam.newlab.MQTTMessage;
 import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.Utils.postToTomcat;
 import lab.ourteam.newlab.pause_State;
 import lab.ourteam.newlab.pointValueMessage;
 import lab.ourteam.newlab.result_bridge;
 import lab.ourteam.newlab.selector.class_selector;
 import lecho.lib.hellocharts.model.PointValue;
+import okhttp3.FormBody;
 
 public class MQTTService extends Service {//mqtt传输服务
     public static final String TAG=MQTTService.class.getSimpleName();
@@ -46,101 +49,21 @@ public class MQTTService extends Service {//mqtt传输服务
     private String host="tcp://47.100.47.134:1883";
     private  String userName="admin";
     private String passWord="public";
-    private static String subTopic="$dp";//订阅的主题
+    private static String[] subTopic={"$dp","slave_computer"};//订阅的主题
     private static String pubTopic="master_computer";//发送的对象
     private static String clientId="android";
-    private List<PointValue> pointvaluelist=null;//坐标点
-    private int k=10;
-    private int j=0;
-    private long total=0;
-    private  int series_sv;//保存從series_Activity傳回來的設定溫度
-    private boolean isAppoint=true;
-    private boolean isSeries_sv=false;
-    private boolean isdraw;
-    private List<PointValue> pointValues;//初始化为空
-    private EventBus eventBus;
-    private int first_start_time;
-    private  double appoint_time;
-    private double sv_time;
-    private myCount mc;
-    private long pause_time_remaining=0;
-    private long pause_total=0;
     private long notification_time=0;
     private pause_State pause_state=pause_State.NEVER_PAUSE;
     private class_selector class_picker=class_selector.MainActivity;//默认
     private Notification.Builder notification_builder;//管理通知栏
-    //public DBManager dbManager;
-    //private boolean isPause=false;
-    @Override
+        @Override
     public void onCreate(){
         super.onCreate();
-        pointvaluelist=new ArrayList<PointValue>();
         frontService();
     }
     @Override
     public int onStartCommand(Intent intent,int flags,int startId){
         init();
-       // dbManager=new DBManager(this);
-       // EventBus.getDefault().register(this);
-        class_picker=(class_selector)intent.getSerializableExtra("class_selector");
-        isdraw=intent.getBooleanExtra("isdraw",false);
-        if(class_picker==class_selector.MainActivity) {
-            boolean count_down = intent.getBooleanExtra("count_down", false);
-            boolean isretime = intent.getBooleanExtra("retime", false);//重新计时
-            pause_state = (pause_State) intent.getSerializableExtra("pause_state");
-            isAppoint = intent.getBooleanExtra("isAppoint", true);
-            long ispause_time_remaining = intent.getLongExtra("pause_time_remaining", 0);
-            appoint_time = intent.getDoubleExtra("appoint_time", 0);
-            sv_time = intent.getDoubleExtra("sv_time", 0);
-
-        if(pause_state==pause_State.IS_PAUSE){
-            pause_time_remaining=ispause_time_remaining;
-            pause_total=total;
-            if(mc!=null){
-                mc.cancel();
-            }
-            Toast.makeText(getApplicationContext(),"暂停时，剩余时间为"+pause_time_remaining/(1000)+"秒",Toast.LENGTH_SHORT).show();
-        }else if(pause_state==pause_State.ONCE_PAUSE){
-
-            if(isAppoint){
-                if(mc!=null) mc.cancel();
-                mc=new myCount(pause_time_remaining+(long)sv_time*60*1000,1000);
-                mc.start();
-            }else{
-                total=pause_total;
-                if(mc!=null) mc.cancel();
-                mc=new myCount(pause_time_remaining,1000);
-                mc.start();
-            }
-        }else {//非暂停状态
-            Toast.makeText(getApplicationContext(),"正常状态",Toast.LENGTH_SHORT).show();
-            if (isretime) {
-                total = 0;//计时器归零
-                pointvaluelist.clear();
-            }
-            if (count_down) {
-                initTimer();
-            }
-        }
-        }else if(class_picker==class_selector.series_Activity){//当series_Activity传值进来时的操作
-            int series_time=intent.getIntExtra("series_time",0);//单位分钟
-            series_sv=intent.getIntExtra("series_sv",0);
-            isSeries_sv=intent.getBooleanExtra("isSeries_sv",false);
-            Toast.makeText(getApplicationContext(),"time:"+series_time+"sv:"+series_sv,Toast.LENGTH_SHORT).show();
-            if(mc!=null) mc.cancel();
-            mc=new myCount(series_time*60*1000,1000);
-            mc.start();
-        }
-        if(isdraw) {
-            /**
-             * 用于保存上一次点坐标，加快渲染速度
-             */
-            pointValueMessage message=new pointValueMessage();
-            message.setIsDraw(isdraw);
-            message.setPointValueList(pointvaluelist);
-            message.setJAndK(j,k);
-            EventBus.getDefault().post(message);
-        }
         return super.onStartCommand(intent,flags,startId);
     }
     public static void publish(int subId,String msg){//发送数据
@@ -153,8 +76,7 @@ public class MQTTService extends Service {//mqtt传输服务
         }
     }
     private void init() {
-        String uri=host;
-    client=new MqttAndroidClient(this,uri,clientId);
+        client=new MqttAndroidClient(this,host,clientId);
     //设置监听并回调消息
         client.setCallback(mqttCallback);
         conOpt=new MqttConnectOptions();
@@ -194,14 +116,18 @@ public class MQTTService extends Service {//mqtt传输服务
         Toast.makeText(getApplicationContext(),"服务器断开连接",Toast.LENGTH_SHORT).show();
     }
 // 连接服务器
-    private void doClientConnection(){
+    private boolean doClientConnection(){
         if(!client.isConnected()&&isConnectIsNomarl()){
            try{
-                client.connect(conOpt,null,iMqttActionListener);
+              client.connect(conOpt,null,iMqttActionListener);
            }catch(MqttException e) {
-
+               return false;
            }
+           return true;
+        } else{
+            return true;    //连接成功
         }
+
     }
     //服务器是否连接成功
     private IMqttActionListener iMqttActionListener=new IMqttActionListener(){
@@ -210,7 +136,8 @@ public class MQTTService extends Service {//mqtt传输服务
             Log.i(TAG,"连接成功");
             //Toast.makeText(getApplicationContext(),"服务器连接成功",Toast.LENGTH_SHORT).show();
             try{//订阅消息
-                client.subscribe(subTopic,1);
+                for(String publisher:subTopic)
+                   client.subscribe(publisher,1);
             }catch(MqttException e){
 
             }
@@ -218,7 +145,16 @@ public class MQTTService extends Service {//mqtt传输服务
         @Override
         public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
             //失败重连
-           doClientConnection();
+            while (true){
+                try {
+                    Thread.sleep(5000);//每隔五秒重连一次
+                     if(doClientConnection()) return; //如果连接成功则退出循环
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        
+            }
+
         }
     };
     // MQTT监听并且接受消息
@@ -226,42 +162,55 @@ public class MQTTService extends Service {//mqtt传输服务
         @Override
         public void connectionLost(Throwable cause) {
              doClientConnection();
-            Toast.makeText(getApplicationContext(),"服务器重连成功",Toast.LENGTH_SHORT).show();
         }
-
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
             String str1 = new String(message.getPayload());
-            total+=5;//充当定时器,单位秒
-            MQTTMessage msg = new MQTTMessage();
-           // msg.setTotal(total);
-            msg.setMessage(str1);
-            EventBus.getDefault().post(msg);
-            Log.i(TAG, "messageArrived:" + msg);
             JSONObject obj = new JSONObject(str1);
+            if(topic.equals("slave_computer")){
+                final int state=obj.getInt("state");
+                new Thread(){
+                    @Override
+                    public void run() {
+                        FormBody.Builder builder=new FormBody.Builder();
+                        builder.add("subId",10001+"");
+                        builder.add("status",state+"");
+                        try {
+                            postToTomcat.postFormData("deviceController/setBathStatus.json",builder);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+            }
+
+
+            //MQTTMessage msg = new MQTTMessage();
+           // msg.setMessage(str1);
+            //EventBus.getDefault().post(msg);
+           // Log.i(TAG, "从mqtt服务器接受的数据:" + msg);
+
             if (!obj.isNull("fields")) {
                 JSONObject sub_obj = obj.getJSONObject("fields");
-              //  DecimalFormat df = new DecimalFormat("00.00");
-                double cv = sub_obj.getDouble("CV");
-               // int cur_time = sub_obj.getInt("timestamp");
-             //   first_start_time = sub_obj.getInt("start_time");
-             //   int time = (cur_time - first_start_time);//每分钟打一个点
-               if ((total%20)==0&&isdraw) {//20秒刷新一次
-                   // time=time/60;
-                   int total_minute = (int) total / 60;
-                   pointValueMessage pointvalueMessage = new pointValueMessage();
-                   if (total_minute > 9 && (total % 60) == 0) {
-                       j += 1;
-                       k += 1;
-                   }
-                   pointvalueMessage.setJAndK(j, k);
-                   pointvaluelist.add(new PointValue(total_minute, (float) cv));
-                   pointvalueMessage.setPointValueList(pointvaluelist);
-                   EventBus.getDefault().post(pointvalueMessage);
-               }
+                final  double cv = sub_obj.getDouble("CV");
+                final int subId=sub_obj.getInt("subId");
+                //上传到数据库
+                new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        FormBody.Builder builder=new FormBody.Builder();
+                        builder.add("subId",subId+"");
+                        builder.add("cv",cv+"");
+                        try {
+                            postToTomcat.postFormData("deviceController/updateCv.json",builder);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
         }
-
         @Override
         public void deliveryComplete(IMqttDeliveryToken token) {
 
@@ -331,63 +280,4 @@ public class MQTTService extends Service {//mqtt传输服务
             startForeground(1,notification);
         }
     }
-public void initTimer(){
-    if(mc!=null) mc.cancel();
-               mc=new myCount((int)(appoint_time+sv_time)*60*1000,1000);
-               mc.start();
-}
-//公共计时器
-class myCount extends CountDownTimer {
-private long millisinfuture;//总时间
-    public myCount(long millisInFuture, long countDownInterval) {
-        super(millisInFuture, countDownInterval);
-        this.millisinfuture=millisInFuture;
-    }
-    @Override
-    public void onTick(long millisUntilFinished){//剩余时间
-/**
- * 待解决问题
- * 暂停后重启时间计算问题 */
-/**
- *series_Activity传值
- */
-long appoint_Time=0;
-if(class_picker==class_selector.MainActivity) {
-            appoint_Time = (long) appoint_time * 60 * 1000;
-            if (pause_state == pause_State.ONCE_PAUSE) {
-                appoint_Time = pause_time_remaining;
-            }
-        } else if(class_picker==class_selector.series_Activity) {
-           isAppoint=false;
-        }
-       if(isAppoint&&(millisinfuture-millisUntilFinished)<appoint_Time){//如果有预约时间,且此时还处于预约状态(经过的时间小于预约总时间
-           long time_remaining=millisUntilFinished-(long)(sv_time*60*1000);//剩余预约时间
-           result_bridge msg=new result_bridge();
-           msg.setAppoint(true);
-           msg.setHint(false);
-           msg.setSeries_sv(0);
-           msg.setTime_remaining(time_remaining);
-           EventBus.getDefault().post(msg);
-       }else {
-           long time_remaining=millisUntilFinished;//剩余加热时间
-           result_bridge msg=new result_bridge();
-           msg.setAppoint(false);
-           msg.setHint(false);
-           msg.setisSeries_sv(isSeries_sv);
-           msg.setSeries_sv(series_sv);
-           msg.setTime_remaining(time_remaining);
-           EventBus.getDefault().post(msg);
-           notification_time=time_remaining/1000;//秒級別
-          frontService();
-        }
-    }
-    @Override
-    public void onFinish(){
-        //隐藏Hint
-        result_bridge msg=new result_bridge();
-        msg.setHint(true);
-        msg.setAppoint(true);
-        EventBus.getDefault().post(msg);
-    }
-}
 }

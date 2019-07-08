@@ -34,7 +34,7 @@ import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.myApplication;
 
-public class register_Activity extends Activity {
+public class register_Activity extends Activity  {
     private ImageView return_View;
     private static Button register_send_verification_code;//发送验证码
     private Button register_next_button;//下一步注册
@@ -77,6 +77,7 @@ public class register_Activity extends Activity {
                     }
                     case R.id.register_send_verification_code:{//发送验证码
                         //在此处判断
+
                         final String phone=register_userphone_edit.getText().toString();
                         if(phone!=null&&phone.length()==11){
                                 //   SMSSDK.setAskPermisionOnReadContact(true);
@@ -257,7 +258,7 @@ public class register_Activity extends Activity {
                         String userName=responseObj.getString("userName");
                         Toast.makeText(getApplicationContext(),"接收的resCode"+resCode,Toast.LENGTH_SHORT).show();
                         if(resCode.equals("300")){//已注册
-                            new myApplication().setUserName(userName);
+                            //new myApplication().setUserName(userName);
                             Toast.makeText(getApplicationContext(),userName,Toast.LENGTH_SHORT).show();
                             setResult(Constant.register_activity_result_code, intent);
                             finish();

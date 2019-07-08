@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity  {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch(menuItem.getItemId()){
                 case R.id.menu_center:{
-                    viewPager.setCurrentItem(3);
+                    viewPager.setCurrentItem(2);
                    return true;
                 }
                 case R.id.menu_contrl:{
@@ -87,10 +87,6 @@ public class MainActivity extends AppCompatActivity  {
                     return true;
                 }
                 case R.id.menu_news:{
-                    viewPager.setCurrentItem(2);
-                    return true;
-                }
-                case R.id.menu_people:{
                     viewPager.setCurrentItem(1);
                     return true;
                 }
@@ -107,7 +103,6 @@ public class MainActivity extends AppCompatActivity  {
         time_remaining=0;
         isAppoint=false;
         //注册EventBus
-       // EventBus.getDefault().register(this);
         Log.d(TAG, "oncreate");
         startService(new Intent(this, MQTTService.class));
         LayoutInflater LI=MainActivity.this.getLayoutInflater();
@@ -150,41 +145,21 @@ public class MainActivity extends AppCompatActivity  {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //模拟两条数据
             switch (position) {
-                case 0://切换到曲线图
-                {
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, series_Activity.class);
-                    if(!isAppoint) {
-                        intent.putExtra("SV", (int) sv);
-                        // intent.putExtra("set_time", (int) sv_time);
-                        intent.putExtra("set_time",(int)time_remaining/(1000*60));
-                    }
-                    intent.putExtra("isAppoint",isAppoint);
-                    MainActivity.this.startActivity(intent);
-                    break;
-                }
-                case 1://切换到联系人
-                {
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, contacts_activity.class);
-                    MainActivity.this.startActivity(intent);
-                    break;
-                }
-                case 2://切换到商城
+                case 0://切换到测试
                 {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, store.class);
                     MainActivity.this.startActivity(intent);
                     break;
                 }
-                case 3://切换到设置图
+                case 1://切换到设置图
                 {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, setting_Activity.class);
                     MainActivity.this.startActivity(intent);
                     break;
                 }
-                case 4://切换到关于视图
+                case 2://切换到关于视图
                 {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, about_Activity.class);
@@ -196,11 +171,9 @@ public class MainActivity extends AppCompatActivity  {
     });
 }
     private void initList() {
-        mList.add(new listviewBean(R.mipmap.data, "曲线图", 1));
-        mList.add(new listviewBean(R.mipmap.shebei, "通讯录", 2));
-        mList.add(new listviewBean(R.mipmap.store, "测试", 3));
-        mList.add(new listviewBean(R.mipmap.edit, "设置", 4));
-        mList.add(new listviewBean(R.mipmap.about, "关于", 5));
+        mList.add(new listviewBean(R.mipmap.store, "测试", 1));
+        mList.add(new listviewBean(R.mipmap.edit, "设置", 2));
+        mList.add(new listviewBean(R.mipmap.about, "关于", 3));
     }
     public void setNavigation(){
         navigation.setOnNavigationItemSelectedListener(mNavigationItemListener);
@@ -225,7 +198,6 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
         mFragmentList.add(new fg_contrl());
-        mFragmentList.add(new fg_people());
         mFragmentList.add(new fg_news());
         mFragmentList.add(new fg_center());
         myFragmentAdapter=new myFragmentPagerAdapter(getSupportFragmentManager(),mFragmentList);
@@ -304,74 +276,6 @@ public class MainActivity extends AppCompatActivity  {
         };
         warning_cancel.setOnClickListener(button_Listener);
         warning_allow.setOnClickListener(button_Listener);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getMqttMessage(MQTTMessage mqttMessage) throws JSONException {
-
-        Log.i(MQTTService.TAG, "get message:" + mqttMessage.getMessage());
-        //total_second = mqttMessage.getTotal();//同步时间
-        //Toast.makeText(this,mqttMessage.getMessage(),Toast.LENGTH_SHORT).show();
-        JSONObject obj = new JSONObject(mqttMessage.getMessage());
-        if (!obj.isNull("fields")) {
-            JSONObject sub_obj = obj.getJSONObject("fields");
-            DecimalFormat df = new DecimalFormat("00.00");
-            cv = sub_obj.getDouble("CV");
-           // temperature.setText(df.format(cv) + "ºC");
-        }
-    }
-
-
-   @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getResult(result_bridge result){
-        Log.i(MQTTService.TAG,result.toString());
-        isAppoint=result.getIsAppoint();
-        time_remaining=result.getTime_remaining();
-        boolean hint=result.getHint();
-        if(hint){
-           // hint_text.setVisibility(View.INVISIBLE);
-        }
-        if(isAppoint){
-            int d1=(int)time_remaining/(60*1000);//分钟
-            String str;
-            str= String.format("将在%d分钟后开始加热，请稍等...",d1);
-           // hint_text.setText(str);
-
-            double d2=time_remaining/1000;
-            int hour = (int)(d2-d2%3600)/3600;
-            int minute =(int)(d2%3600-d2%3600%60)/60;
-            int second = (int)d2%3600%60;
-            SimpleDateFormat ft = new SimpleDateFormat("HH:mm:ss");
-            Date time = new Date();
-            time.setHours(hour);
-            time.setMinutes( minute);
-            time.setSeconds( second);
-            String str1 = ft.format(time);
-            //if(d2%10==0)
-             //   appoint_selector.setText(str1);
-        }else{
-            int d1=(int)time_remaining/(60*1000);
-            String str;
-            str= String.format("将在%d分钟后停止加热，请稍等...",d1);
-            //hint_text.setText(str);
-            int series_sv=result.getSeries_sv();//獲取從activity傳來的更改後的sv
-            boolean isSeries_sv=result.getIsSeries_sv();
-            String sv_str = String.format("%02d.%02dºC", series_sv, 0);
-           // if(isSeries_sv)
-           //     sv_selector.setText(sv_str);
-            double d2=time_remaining/1000;
-            int hour = (int)(d2-d2%3600)/3600;
-            int minute =(int)(d2%3600-d2%3600%60)/60;
-            int second = (int)d2%3600%60;
-            SimpleDateFormat ft = new SimpleDateFormat("HH:mm:ss");
-            Date time = new Date();
-            time.setHours(hour);
-            time.setMinutes( minute);
-            time.setSeconds( second);
-            String str1 = ft.format(time);
-           // if(d2%10==0)
-            //    time_selector.setText(str1);
-        }
     }
 @Override
     protected void onDestroy(){

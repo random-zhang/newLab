@@ -26,110 +26,12 @@
             android:gravity="center"
             android:text="温度曲线"
             />
-
-
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/series_title_bar">
 <lecho.lib.hellocharts.view.LineChartView
     android:layout_width="match_parent"
     android:layout_height="400dp"
     android:id="@+id/lineChartView"
+    android:layout_below="@id/series_title_bar"
     />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_sv_team"
-            android:layout_below="@id/lineChartView"
-            android:layout_marginTop="20dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/series_sv"
-        android:text="设定温度"
-        android:textSize="20sp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_sv_minus"
-            android:src="@mipmap/minus"
-            android:layout_marginTop="28dp"
-            android:layout_marginLeft="40dp"
-            android:layout_below="@id/lineChartView"
-            android:layout_toRightOf="@id/series_sv"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_sv_text"
-            android:text="00"
-            android:textSize="20sp"
-            android:layout_below="@id/lineChartView"
-            android:layout_toRightOf="@id/series_sv_minus"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            />
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="30dp"
-            android:id="@+id/series_sv_plus"
-            android:src="@mipmap/plus"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="40dp"
-            android:layout_below="@id/lineChartView"
-            android:layout_toRightOf="@id/series_sv_text"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_time_team"
-            android:layout_below="@id/series_sv_team">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_time"
-            android:text="设定时间"
-            android:textSize="20sp"
-            android:layout_below="@id/series_sv"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="30dp"
-            />
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_time_minus"
-            android:src="@mipmap/minus"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="40dp"
-            android:layout_below="@id/series_sv_minus"
-            android:layout_toRightOf="@id/series_time"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/series_time_text"
-            android:text="00"
-            android:textSize="20sp"
-            android:layout_below="@id/series_sv_text"
-            android:layout_toRightOf="@id/series_time_minus"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            />
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="30dp"
-            android:id="@+id/series_time_plus"
-            android:src="@mipmap/plus"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="40dp"
-            android:layout_below="@id/series_sv_plus"
-            android:layout_toRightOf="@id/series_time_text"/>
-        </LinearLayout>
-    </RelativeLayout>
-
 </RelativeLayout>
 

@@ -1,7 +1,7 @@
 package lab.ourteam.newlab.Presenter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -15,15 +15,16 @@ public class loginPresenter  implements loginAsyncTask.Listener {
     private loginAsyncTask myAsyncTask;
     protected IModel mIModel;
     protected WeakReference<loginView> mViewReference;
+    private loginView view;
     public  loginPresenter(loginView loginView) {
         this.mIModel = new loginModel();
         this.mViewReference = new WeakReference<loginView>(loginView);
     }
     public void login() {
         if (mIModel != null && mViewReference != null && mViewReference.get() != null) {
-            loginView loginView = (loginView) mViewReference.get();
-            String phone = loginView.getUserPhone();
-            String passWord = loginView.getUserPassword();
+            view = (loginView) mViewReference.get();
+            String phone = view.getUserPhone();
+            String passWord =view.getUserPassword();
             myAsyncTask=new loginAsyncTask();
             myAsyncTask.setListener(this);
             myAsyncTask.execute(phone,passWord);
@@ -32,20 +33,20 @@ public class loginPresenter  implements loginAsyncTask.Listener {
 
     @Override
     public void onSuccess(User user) {
-        mViewReference.get().onLoginSeccess(user);
+        view.onLoginSeccess(user);
     }
     @Override
     public void onFail() {
-        mViewReference.get().onLoginFails();
+        view.onLoginFails();
     }
     @Override
     public User InBackground(String... params) {
         String userPhone=params[0];
         String userPassword=params[1];
-        Context context=mViewReference.get().getSelfActivity().getApplicationContext();
+        Context context=view.getContext();
         User user=null;
         try {
-            user=((loginModel)mIModel).login(userPhone,userPassword,context);
+            user=((loginModel)mIModel).login(userPhone,userPassword,context.getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }

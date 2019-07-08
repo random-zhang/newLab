@@ -26,6 +26,9 @@ public class baseListActivity extends Activity implements View.OnClickListener{/
     private int activityId,customButtonId;//对应定制按钮的跳转activity
     private RecyclerView recyclerView;
     public CreateActivity createActivity;
+    public baseListActivity(){
+
+    }
     public baseListActivity(String title,int activityId,int customButtonId){//当activityId为-10时，代表无跳转activity
         /*
             需要
@@ -42,7 +45,7 @@ public class baseListActivity extends Activity implements View.OnClickListener{/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about_activity);
+        setContentView(R.layout.baselistactivity);
         initID();
         initUI();
     }
@@ -67,8 +70,8 @@ public class baseListActivity extends Activity implements View.OnClickListener{/
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
        // adapter=new listAdapter(this);
-        recyclerView.setAdapter(createActivity.bindAdapter());
-        createActivity.initItem();
+        recyclerView.setAdapter(new listAdapter(this));
+        //createActivity.initItem();
         linearLayoutManager.scrollToPosition(0);
        /* adapter.setOnItemClickListener(new cardViewAdapter.OnItemClickListener() {
             @Override
@@ -89,7 +92,6 @@ public class baseListActivity extends Activity implements View.OnClickListener{/
     public interface  CreateActivity{//对列表项进行初始化
          void onclick();
          void initItem();
-        RecyclerView.Adapter bindAdapter();
     }
     public void setCreateActivity(CreateActivity createActivity) {
         this.createActivity = createActivity;
