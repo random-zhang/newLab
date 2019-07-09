@@ -33,7 +33,7 @@ public class login_Activity extends Activity implements loginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         intent = getIntent();
-        this.mPresenter = new loginPresenter(this);
+        mPresenter = new loginPresenter(this);
         initId();
         onListener();
         returnMenu.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) { finish(); }});
@@ -50,8 +50,8 @@ public class login_Activity extends Activity implements loginView {
             public void onClick(View v) {
                 switch(v.getId()){
                     case R.id.login_button:{
-                        Toast.makeText(getApplicationContext(),"暂不可用",Toast.LENGTH_SHORT).show();
-                      //  mPresenter.login();
+                        //Toast.makeText(getApplicationContext(),"暂不可用",Toast.LENGTH_SHORT).show();
+                        mPresenter.login();
                         break;
                     }
                     case R.id.register_button:{

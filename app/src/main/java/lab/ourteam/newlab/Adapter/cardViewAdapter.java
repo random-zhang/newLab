@@ -15,7 +15,7 @@ import lab.ourteam.newlab.Bean.CardViewBean;
 import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.Utils.CardDataUtils;
 
-public class cardViewAdapter extends RecyclerView.Adapter<cardViewAdapter.ItemCardViewHolder>{
+public class cardViewAdapter extends RecyclerView.Adapter<cardViewAdapter.ItemCardViewHolder>{//适用于devices
     private List<CardViewBean> beans;
     private LayoutInflater mInflater;
     private Context mContext;

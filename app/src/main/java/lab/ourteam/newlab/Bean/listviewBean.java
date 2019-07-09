@@ -1,5 +1,5 @@
 package lab.ourteam.newlab.Bean;
-   public class listviewBean{//带图的listView
+   public class listviewBean{//带图的listView,
     private int imageView;
     private String name,preview;
     private int id;

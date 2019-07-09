@@ -32,6 +32,7 @@ import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.activity.login_Activity;
 import lab.ourteam.newlab.activity.myDevices;
 import lab.ourteam.newlab.activity.myHistory;
+import lab.ourteam.newlab.activity.settingListViewActivity;
 import lab.ourteam.newlab.activity.userDevices;
 import lab.ourteam.newlab.event.MessageEvent;
 import lab.ourteam.newlab.activity.user_info_activity;
@@ -82,7 +83,7 @@ public class fg_center extends Fragment {
         viewList= new ArrayList<>();
       viewList.add(new listviewBean(R.mipmap.myhistory,"历史记录",101));
       viewList.add(new listviewBean(R.mipmap.mydevice,"我的设备",102));
-      viewList.add(new listviewBean(R.mipmap.myvideo,"我的视频",103));
+      viewList.add(new listviewBean(R.mipmap.myvideo,"设置",103));
       viewList_adapter=new myAdapter(getContext(),viewList,R.layout.content_item);
       listView.setAdapter(viewList_adapter);
       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,8 +96,8 @@ public class fg_center extends Fragment {
                    Intent intent=new Intent(getContext(), myDevices.class);
                    startActivity(intent);
                     break;
-                case 2://我的视频
-
+                case 2://设置
+                     startActivity(new Intent(getContext(), settingListViewActivity.class));
                     break;
             }
           }

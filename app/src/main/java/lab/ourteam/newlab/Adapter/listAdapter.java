@@ -48,7 +48,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
         super.onDetachedFromRecyclerView(recyclerView);
         this.recyclerView = null;
     }
-
     public void deleteItem() {
         if(beans == null || beans.isEmpty()) {
             return;
@@ -65,7 +64,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
             baseListView_tv=(TextView)itemView.findViewById(R.id.baseListView_tv);
         }
     }
-
     @Override
     public int getItemCount() {
 
@@ -78,9 +76,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
     }
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        final int Position=position;
-        //holder.baseListView.setCardBackgroundColor(mContext.getResources().getColor(R.color.DodgerBlue));
-        // holder.item_cardview.setCardBackgroundColor(beans.get(position).getColor());
         holder.baseListView_tv.setText(beans.get(position).getText());
         holder.baseListView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +86,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ItemViewHolder
                 }
             }
         });
-
     }
     /**
      * 适配器的点击事件接口

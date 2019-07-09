@@ -11,6 +11,9 @@ import lab.ourteam.newlab.Model.IModel;
 import lab.ourteam.newlab.Model.loginModel;
 import lab.ourteam.newlab.Utils.loginAsyncTask;
 import lab.ourteam.newlab.View.loginView;
+
+import static lab.ourteam.newlab.Utils.saveToLocation.saveUserInfo;
+
 public class loginPresenter  implements loginAsyncTask.Listener {
     private loginAsyncTask myAsyncTask;
     protected IModel mIModel;
@@ -47,6 +50,10 @@ public class loginPresenter  implements loginAsyncTask.Listener {
         User user=null;
         try {
             user=((loginModel)mIModel).login(userPhone,userPassword,context.getApplicationContext());
+            if(user!=null){
+                saveUserInfo(user,context);
+                Log.d("文件","成功保存用户信息到本地");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
