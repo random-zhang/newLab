@@ -71,9 +71,14 @@ public class user_info_activity extends Activity {
         User user= null;
         try {
             user = saveToLocation.getUserInfo(this);
-            if(user!=null)
-                user_info_nackName.setText(user.getUsername());
-            user_info_phone.setText(user.getUserphone());
+            if(user!=null){
+                user_info_nackName.setText(user.getUserName());
+                user_info_phone.setText(user.getUserPhone());
+                user_info_sex.setText(user.getUserSex());
+                //user_info_birthday.setText(user.getBirthday());
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
             return;

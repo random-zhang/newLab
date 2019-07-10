@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+
 import java.io.IOException;
 import lab.ourteam.newlab.Bean.User;
 
@@ -20,7 +22,6 @@ public class loginModel implements IModel {
     public User login(final  String userPhone, final String password, Context context)throws IOException {
         User user=new User();
         //获取传进来的参数
-
         JSONObject o=null ;
         if (userPhone == null||password==null) {
             return null;
@@ -49,15 +50,8 @@ public class loginModel implements IModel {
              */
             JSONObject e = o.getJSONObject("user");
             if(e==null) return null;
-            user=new User();
-            user.setUserid(e.getIntValue("userId"));
-            user.setUsername(e.getString("userName"));
-            user.setUserpassword(e.getString("userPassword"));
-            /*
-              获取头像信息
-             */
-            user.setUserportrait(context,e.getIntValue("userId"));
-            Log.i("登录",user.getUsername());
+            user=JSONObject.parseObject(json, new TypeReference<User>() {});
+            Log.i("登录",user.getUserName());
         }
           return user;
     }

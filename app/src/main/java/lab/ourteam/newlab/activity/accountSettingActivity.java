@@ -1,14 +1,14 @@
 package lab.ourteam.newlab.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +18,26 @@ import lab.ourteam.newlab.Bean.settingListViewBean;
 import lab.ourteam.newlab.R;
 
 import static com.mob.MobSDK.getContext;
+import static lab.ourteam.newlab.Utils.saveToLocation.clearUserInfo;
+import static lab.ourteam.newlab.Utils.saveToLocation.updateLoginStatus;
 
-public class settingListViewActivity extends AppCompatActivity {//设置页
-   private List<settingListViewBean> beans;
-   private settingListViewAdapter adapter;
-   private RecyclerView recyclerView;
+public class accountSettingActivity extends Activity {
+
+    private List<settingListViewBean> beans;
+    private settingListViewAdapter adapter;
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_list_view);
+        setContentView(R.layout.activity_account_setting);
         initId();
         initListView();
         initListener();
         initUI();
     }
+
     private void initId(){
-        recyclerView=findViewById(R.id.setting_list_view_activity_recylerview);
+        recyclerView=findViewById(R.id.account_setting_activity_recylerview);
     }
     private void initListView(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -45,25 +49,27 @@ public class settingListViewActivity extends AppCompatActivity {//设置页
 
     }
     private void initListener(){
-       adapter.setOnItemClickListener(new settingListViewAdapter.OnItemClickListener(){
-           @Override
-           public void OnItemClick(View v, int position) {
-             switch(position){
-                 case 0:{//账户设置
-                    startActivity(new Intent(getContext(),accountSettingActivity.class));
-                     break;
-                 }
-             }
-           }
-       });
+        adapter.setOnItemClickListener(new settingListViewAdapter.OnItemClickListener(){
+            @Override
+            public void OnItemClick(View v, int position) {
+                switch(position){
+                    case 0:{//退出登录
+                        updateLoginStatus(false,getContext());
+                        //清除本地用户信息缓存
+                        clearUserInfo(getContext());
+                        Toast.makeText(getContext(),"成功退出",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            }
+        });
     }
     private void initUI(){
 
     }
     private  List<settingListViewBean> createBeans(){
         List<settingListViewBean> beans=new ArrayList<>();
-        beans.add(new settingListViewBean("账户设置",R.mipmap.arrow));//-1代表无图
-        beans.add(new settingListViewBean("系统设置",R.mipmap.arrow));
+        beans.add(new settingListViewBean("退出登录",-1));//-1代表无图
         return beans;
     }
 }

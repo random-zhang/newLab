@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
@@ -33,6 +34,10 @@ public class settingListViewAdapter extends RecyclerView.Adapter<settingListView
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder  holder, int position) {
+        if(beans.get(position).getImageID()==-1)//无图模式
+            holder.imageView.setVisibility(View.INVISIBLE);
+        else
+         holder.imageView.setImageResource(beans.get(position).getImageID());
         holder.baseListView_tv.setText(beans.get(position).getText());
         holder.baseListView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +69,12 @@ public class settingListViewAdapter extends RecyclerView.Adapter<settingListView
      public   static class ItemViewHolder extends RecyclerView.ViewHolder{
         private LinearLayout baseListView;
         private TextView baseListView_tv;
+        private ImageView imageView;
         public ItemViewHolder(View itemView) {
             super(itemView);
             baseListView=itemView.findViewById(R.id.arrow_list_item);
             baseListView_tv=(TextView)itemView.findViewById(R.id.arrow_list_item_tv);
+            imageView=itemView.findViewById(R.id.arrow_list_item_imageView);
         }
     }
     /**

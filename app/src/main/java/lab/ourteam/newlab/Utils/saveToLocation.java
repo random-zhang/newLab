@@ -11,20 +11,50 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import lab.ourteam.newlab.Bean.User;
 
  public  class saveToLocation {
+     public static void updateLoginStatus(boolean isLogin,Context context){//更新登录信息
+         JSONObject obj=new JSONObject();
+         obj.put("isLogin",isLogin);
+         FileOutputStream outputStream;
+         try {
+             outputStream =context.openFileOutput("LoginStatus.txt", Context.MODE_PRIVATE);
+             outputStream.write(obj.toString().getBytes("utf-8"));
+             outputStream.close();
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
+     public static boolean getLoginStatus(Context context) {//更新登录信息
+         FileInputStream fileInputStream;
+         byte[] buffer = new byte[1024];
+         try {
+             fileInputStream =context.openFileInput("LoginStatus.txt");
+             fileInputStream.read(buffer);
+             fileInputStream.close();
+         } catch (Exception e) {
+             e.printStackTrace();
+             return  false;
+         }
+         JSONObject obj=JSONObject.parseObject(new String(buffer));
+         return obj.getBoolean("isLogin");
+     }
     // 在Internal中存储文件
     public static  void saveUserInfo(User user,Context context) {
         JSONObject obj=new JSONObject();
         try {
-            obj.put("userName",user.getUsername());
-            obj.put("userPhone",user.getUserphone());
-            obj.put("userId",user.getUserid());
-            obj.put("userPassword",user.getUserpassword());
+            obj.put("userName",user.getUserName());
+            obj.put("userPhone",user.getUserPhone());
+            obj.put("userId",user.getUserId());
+            obj.put("userPassword",user.getUserPassword());
+            obj.put("userSex",user.getUserSex());
+            obj.put("userBirthday",user.getBirthday());
+            obj.put("userAddress",user.getUserAddress());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -48,13 +78,21 @@ import lab.ourteam.newlab.Bean.User;
             e.printStackTrace();
             return  null;
         }
+        String st=new String(buffer).trim();
+        if(st==null||st.equals("")){
+            return null;
+        }
+       // String string
         JSONObject obj=JSONObject.parseObject(new String(buffer));
         User user=new User();
-        user.setUsername(obj.getString("userName"));
-        user.setUserphone(obj.getString("userPhone"));
-        user.setUserid(obj.getIntValue("userId"));
-        user.setUserpassword(obj.getString("userPassword"));
-        user.setUserportrait(context,obj.getIntValue("userId"));
+        user.setUserName(obj.getString("userName"));
+        user.setUserPhone(obj.getString("userPhone"));
+        user.setUserId(obj.getIntValue("userId"));
+        user.setUserPassword(obj.getString("userPassword"));
+        //user.setUserPortrait(context,obj.getIntValue("userId"));
+        user.setUserAddress( obj.getString("userAddress"));
+        user.setBirthday(obj.getDate("userBirthday"));
+        user.setUserSex(obj.getString("userSex"));
         return user;
     }
     public static void saveUserFile(File file,String path,Context context){//把文件保存到指定路径
@@ -66,6 +104,18 @@ import lab.ourteam.newlab.Bean.User;
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static boolean clearUserInfo(Context context){
+        FileOutputStream outputStream;
+        try {
+            outputStream =context.openFileOutput("userInfo.txt", Context.MODE_PRIVATE);
+            outputStream.write("".getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+          return true;
     }
      public static File saveUserFile(byte[] buffer,String fileName,Context context){//把文件保存到指定路径,用户专属
          FileOutputStream out;

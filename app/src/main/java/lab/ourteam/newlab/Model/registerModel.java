@@ -37,10 +37,10 @@ public class registerModel implements IModel {
                         default:{//注册成功
                             user = new User();
                             o.get("msg");
-                            user.setUserid(o.getIntValue("status"));
-                            user.setUsername(userName);
-                            user.setUserpassword(password);
-                            user.setUserphone(userPhone);
+                            user.setUserId(o.getIntValue("status"));
+                            user.setUserName(userName);
+                            user.setUserPassword(password);
+                            user.setUserPhone(userPhone);
                             break;
                         }
                     }

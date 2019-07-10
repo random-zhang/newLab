@@ -30,6 +30,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:id="@+id/arrow_list_item_imageView"
                 android:src="@mipmap/arrow"
                 android:layout_weight="10"
                 />

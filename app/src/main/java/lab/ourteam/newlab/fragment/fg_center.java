@@ -70,15 +70,14 @@ public class fg_center extends Fragment {
             user = getUserInfo(getContext());
             if(user==null){//找不到转入登录系统
             }else{//找到呈现在页面上
-                fg_center_user_id.setText("ID:"+user.getUserid());
-                fg_center_user_name.setText(user.getUsername());
+                fg_center_user_id.setText("ID:"+user.getUserId());
+                fg_center_user_name.setText(user.getUserName());
             }
         } catch (IOException e) {
             e.printStackTrace();
+
         }
-
     }
-
     private void initListView(){
         viewList= new ArrayList<>();
       viewList.add(new listviewBean(R.mipmap.myhistory,"历史记录",101));
@@ -132,8 +131,8 @@ public class fg_center extends Fragment {
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==Constant.fg_center_request_code&&resultCode== Constant.login_activity_result_code){
             User user=(User)data.getSerializableExtra("userInfo");
-            fg_center_user_name.setText(user.getUsername());
-            fg_center_user_id.setText("ID:"+user.getUserid());
+            fg_center_user_name.setText(user.getUserName());
+            fg_center_user_id.setText("ID:"+user.getUserId());
             //头像设置
 
         }
