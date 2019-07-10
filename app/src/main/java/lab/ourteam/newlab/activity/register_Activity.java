@@ -1,6 +1,7 @@
 package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,8 +31,10 @@ import java.net.URLEncoder;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import lab.ourteam.newlab.Bean.User;
 import lab.ourteam.newlab.Constant;
 import lab.ourteam.newlab.R;
+import lab.ourteam.newlab.View.registerView;
 import lab.ourteam.newlab.myApplication;
 
 public class register_Activity extends Activity  {
@@ -40,10 +43,9 @@ public class register_Activity extends Activity  {
     private Button register_next_button;//下一步注册
     private EditText register_verification_code_edit;
     private EditText register_userphone_edit;
-    //private static String appKey="27e4c76d8c100";
-    //private static String appSecret="d120586325efed2fd3d2455e9a0038a2";
     private  EventHandler eventHandler;
-    private register_AsyncTask send_Task;
+    private register_AsyncTask send_Task;//请求验证码
+    private register_AsyncTask task;
     private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -68,7 +70,6 @@ public class register_Activity extends Activity  {
             public void onClick(View v) {
                 switch(v.getId()){
                     case R.id.register_next_button:{
-
                         String verification_code=register_verification_code_edit.getText().toString();
                         String phone=register_userphone_edit.getText().toString();
                         //提交验证码
@@ -77,10 +78,13 @@ public class register_Activity extends Activity  {
                     }
                     case R.id.register_send_verification_code:{//发送验证码
                         //在此处判断
-
                         final String phone=register_userphone_edit.getText().toString();
                         if(phone!=null&&phone.length()==11){
-                                //   SMSSDK.setAskPermisionOnReadContact(true);
+                            if(send_Task!=null )
+                                send_Task.cancel(true);
+                                send_Task = new register_AsyncTask();
+                                send_Task.execute(30);//三十秒后可重新发送
+                                register_next_button.setEnabled(true);
                                 eventHandler = new EventHandler() {
                                 public void afterEvent(int event, int result, Object data) {
                                     // afterEvent会在子线程被调用，因此如果后续有UI相关操作，需要将数据发送到UI线程
@@ -102,11 +106,6 @@ public class register_Activity extends Activity  {
                                                     /**
                                                      * 在此，处理按钮信息
                                                      */
-                                                     if(send_Task!=null )
-                                                         send_Task.cancel(true);
-                                                         send_Task = new register_AsyncTask();
-                                                         send_Task.execute(30);//三十秒后可重新发送
-                                                         register_next_button.setEnabled(true);
                                                 } else {
                                                     // TODO 处理错误的结果
                                                     ((Throwable) data).printStackTrace();
@@ -118,9 +117,9 @@ public class register_Activity extends Activity  {
                                                     /**
                                                      * 在此连接数据库判断手机号是否已注册
                                                      */
-                                                    //String loginUrlStr = Constant.Login_URL+ "?phone="+phone+"&is_use_password=true";
-                                                    //new MyAsyncTask(Constant.Login_URL,getApplicationContext(),phone).execute(2);
-                                                    new register_AsyncTask(Constant.Login_URL,phone,false).execute(2);
+                                                   task=new register_AsyncTask(Constant.Login_URL,phone,false);
+                                                   task.execute(2);
+                                                    //new register_AsyncTask(Constant.Login_URL,phone,false).execute(2);
                                                     //设置完成注册按钮可见
                                                    //
                                                 } else {
@@ -190,11 +189,11 @@ public class register_Activity extends Activity  {
         protected String doInBackground(Integer ...params){ //异步执行后台线程要完成的任务,耗时操作将在此方法中完成.
             executeCode=params[0];
             switch(executeCode) {
-                case 30: {
+                case 30: {//执行倒计时任务
                     try {
                         for (int i = 30; i>0; i--) {
-                            Thread.sleep(1000);
                             publishProgress(i);
+                            Thread.sleep(1000);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -202,6 +201,7 @@ public class register_Activity extends Activity  {
                    break;
                 }
                 case 2:{
+
                     HttpURLConnection connection=null;
                     StringBuilder response=new StringBuilder();
                     try {

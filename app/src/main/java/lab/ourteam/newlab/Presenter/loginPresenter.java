@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference;
 import lab.ourteam.newlab.Bean.User;
 import lab.ourteam.newlab.Model.IModel;
 import lab.ourteam.newlab.Model.loginModel;
-import lab.ourteam.newlab.Utils.loginAsyncTask;
+import asyncTask.loginAsyncTask;
 import lab.ourteam.newlab.View.loginView;
 
 import static lab.ourteam.newlab.Utils.saveToLocation.saveUserInfo;

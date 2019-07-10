@@ -1,6 +1,7 @@
 package lab.ourteam.newlab.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +38,7 @@ public class finish_register extends Activity implements registerView {
         initId();
         register_finish_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//完成注册按钮
                 mPresenter.register();
                 //finish_Register();
                /* if(register_password_edit!=null&register_username_edit!=null) {
@@ -90,6 +91,11 @@ public class finish_register extends Activity implements registerView {
     @Override
     public void onRegisterFails() {
        Toast.makeText(this,"注册失败",Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 
     @Override

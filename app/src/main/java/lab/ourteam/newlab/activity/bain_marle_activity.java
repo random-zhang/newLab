@@ -408,8 +408,8 @@ public class bain_marle_activity extends Activity  {//水浴锅
     public void updateBath(Bath bath) throws IOException {//更新设备数据
         JSONObject object = new JSONObject();
         String url = null;
-        Response response = postToTomcat.postJson(url, object.toString());
-        if (response.body() != null) {
+        String response = postToTomcat.postJson(url, object.toString());
+        if (response!= null) {
 
         }
     }

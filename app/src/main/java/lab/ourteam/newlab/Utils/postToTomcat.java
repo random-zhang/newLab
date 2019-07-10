@@ -27,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 public class postToTomcat {
-    public static final String USERSERVICEURI = "http://192.168.43.161:8080/lab_war_exploded/";
+    public static final String USERSERVICEURI = "http://10.32.136.41:8080/lab_war_exploded/";
     private static final String BOUNDARY = UUID.randomUUID().toString();
     public static Response uploadFile(String url,File file) throws IOException {
         url+=USERSERVICEURI+url;
@@ -38,14 +38,14 @@ public class postToTomcat {
                 .build();
         return okHttpClient.newCall(request).execute();
     }
-    public static Response postJson(String url,String json) throws IOException {
+    public static String postJson(String url,String json) throws IOException {
         url=USERSERVICEURI+url;
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .post(RequestBody.create(getMediaType(".json"), json))
                 .build();
-        return okHttpClient.newCall(request).execute();
+        return okHttpClient.newCall(request).execute().body().string();
     }
     public static void  postByJson(String url,final String json) {
          final String Url=USERSERVICEURI+url;
@@ -153,11 +153,10 @@ public class postToTomcat {
         JSONObject object=new JSONObject();
         object.put("deviceId",deviceId);
         object.put("subId",subId);
-
-       Response response=postJson("deviceController/getDevice.json",object.toString());
+       String response=postJson("deviceController/getDevice.json",object.toString());
         JSONObject json;
-        if(response.body().string()!=null)
-        json=new JSONObject(response.body().string());
+        if(response!=null)
+        json=new JSONObject(response);
         else
             return null;
         return  (Bath)json.get("bath");

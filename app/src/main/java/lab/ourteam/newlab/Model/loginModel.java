@@ -30,11 +30,10 @@ public class loginModel implements IModel {
         jsonObject.put("userPhone",userPhone);  //参数put到json串里
         jsonObject.put("userPassword",password);
         Log.i("登录",jsonObject.toJSONString());
-        Response response= null;
         String json=null;
         try {
-            response = postToTomcat.postJson("user/login.json",jsonObject.toJSONString());
-            json=response.body().string();
+            json = postToTomcat.postJson("user/login.json",jsonObject.toJSONString());
+            Log.e("登入信息",json);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +49,7 @@ public class loginModel implements IModel {
              */
             JSONObject e = o.getJSONObject("user");
             if(e==null) return null;
-            user=JSONObject.parseObject(json, new TypeReference<User>() {});
+            user=JSONObject.parseObject(e.toJSONString(), new TypeReference<User>() {});
             Log.i("登录",user.getUserName());
         }
           return user;
