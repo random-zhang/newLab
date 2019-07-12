@@ -27,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 public class postToTomcat {
-    public static final String USERSERVICEURI = "http://10.32.136.41:8080/lab_war_exploded/";
+    public static final String USERSERVICEURI = "http://192.168.31.49:8080/lab_war_exploded/";
     private static final String BOUNDARY = UUID.randomUUID().toString();
     public static Response uploadFile(String url,File file) throws IOException {
         url+=USERSERVICEURI+url;

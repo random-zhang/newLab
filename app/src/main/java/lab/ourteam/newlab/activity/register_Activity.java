@@ -37,6 +37,8 @@ import lab.ourteam.newlab.R;
 import lab.ourteam.newlab.View.registerView;
 import lab.ourteam.newlab.myApplication;
 
+import static lab.ourteam.newlab.Utils.postToTomcat.postJson;
+
 public class register_Activity extends Activity  {
     private ImageView return_View;
     private static Button register_send_verification_code;//发送验证码
@@ -166,7 +168,7 @@ public class register_Activity extends Activity  {
         SMSSDK.unregisterEventHandler(eventHandler);
     }
     private   class register_AsyncTask extends AsyncTask<Integer, Integer,String >{
-            private String Url;
+            private String Url="user/isRegister.json";
             private String phone;
             private String is_use_password;
             private  int executeCode;//状态码，确定后台执行的是什么操作
@@ -174,7 +176,6 @@ public class register_Activity extends Activity  {
             }
             private register_AsyncTask(String url,String phone,boolean is_use_password){
                 this.phone=phone;
-                this.Url=url;
                 this.is_use_password=String.valueOf(is_use_password);
             }
         @Override
@@ -201,40 +202,19 @@ public class register_Activity extends Activity  {
                    break;
                 }
                 case 2:{
-
-                    HttpURLConnection connection=null;
-                    StringBuilder response=new StringBuilder();
+                    //查询此号码是否已经注册
+                    JSONObject object=new JSONObject();
                     try {
-                        URL url = new URL(Url);
-                        connection=(HttpURLConnection)url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setReadTimeout(80000);
-                        connection.setConnectTimeout(80000);
-                        connection.setDoInput(true);
-                        connection.setDoOutput(true);
-                        //post方式不能设置缓存，需手动设置为false
-                        connection.setUseCaches(false);
-                        DataOutputStream out=new DataOutputStream(connection.getOutputStream());
-                        String str="phone="+ URLEncoder.encode(phone,"UTF-8")+"&is_use_password="+URLEncoder.encode(is_use_password,"UTF-8");
-                        out.writeBytes(str);
-                        out.flush();
-                        out.close();
-                        connection.connect();
-                        if(connection.getResponseCode()==200) {
-
-                            InputStream in = connection.getInputStream();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            in.close();
+                        object.put("userPhone",phone);
+                        String response=postJson(Url,object.toString());
+                        if(response!=null){
+                            return response;
                         }
-                        connection.disconnect();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-                return response.toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
             }
         }
             return " ";
@@ -249,25 +229,19 @@ public class register_Activity extends Activity  {
                 if(executeCode==30) {
                     register_send_verification_code.setEnabled(true);
                     register_send_verification_code.setText("发送验证码");
-                    Log.w("WangJ", "task onPostExecute()");
                 }else if(executeCode==2){
                     try {
-                        Toast.makeText(getApplicationContext(),"请求成功"+s.toString(),Toast.LENGTH_SHORT).show();
+                        Log.e("注册测试",s);
                         JSONObject responseObj = new JSONObject(s);
-                        String resCode=responseObj.getString("resCode");
-                        String userName=responseObj.getString("userName");
-                        Toast.makeText(getApplicationContext(),"接收的resCode"+resCode,Toast.LENGTH_SHORT).show();
-                        if(resCode.equals("300")){//已注册
-                            //new myApplication().setUserName(userName);
-                            Toast.makeText(getApplicationContext(),userName,Toast.LENGTH_SHORT).show();
-                            setResult(Constant.register_activity_result_code, intent);
-                            finish();
-                        }else if(resCode.equals("400")){//未注册
+                        int status=responseObj.getInt("status");
+                       // String userName=responseObj.getString("userName");
+                        if(status==100){//已注册
+                            Toast.makeText(getApplicationContext(),"此帐号已注册",Toast.LENGTH_SHORT).show();
+                        }else if(status==102){//未注册
                             Intent intent=new Intent(register_Activity.this,finish_register.class);
                             intent.putExtra("phone",phone);//把手机号传到finish_register
                             startActivityForResult(intent,Constant.register_activity_request_code);
                             setResult(Constant.register_activity_result_code, intent);
-                            Toast.makeText(getApplicationContext(),"执行",Toast.LENGTH_SHORT).show();
                     }}catch(JSONException e) {
                         e.printStackTrace();
                     }
