@@ -242,6 +242,7 @@ public class register_Activity extends Activity  {
                             intent.putExtra("phone",phone);//把手机号传到finish_register
                             startActivityForResult(intent,Constant.register_activity_request_code);
                             setResult(Constant.register_activity_result_code, intent);
+
                     }}catch(JSONException e) {
                         e.printStackTrace();
                     }
